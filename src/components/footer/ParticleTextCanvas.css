@@ -1,0 +1,40 @@
+/* ==========================================================================
+   PARTICLE TEXT CANVAS STYLES
+   Interactive rasterized dot matrix banner ("OSHUNNO")
+   ========================================================================== */
+
+.particle-text-banner {
+  position: relative;
+  width: 100%;
+  height: clamp(180px, 24vh, 260px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: crosshair;
+}
+
+.particle-text-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: pan-y; /* Allows natural vertical page scrolling on mobile swipe */
+  position: absolute;
+  inset: 0;
+}
+
+/* Screen-reader accessible hidden text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

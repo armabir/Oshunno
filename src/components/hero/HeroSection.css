@@ -1,0 +1,1043 @@
+/* ==========================================================================
+   HERO SECTION STYLES
+   3-Tier Composition: Floating Navbar, Conveyor Engine, & Editorial Headline
+   ========================================================================== */
+
+.hero-section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--color-bg);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------------------
+   TIER A: TOP TIER - FLOATING MINIMAL NAVBAR
+   -------------------------------------------------------------------------- */
+.hero-nav-wrapper {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(12, 12, 14, 0.78);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 14px clamp(20px, 4vw, 60px);
+  box-sizing: border-box;
+}
+
+.hero-nav {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Brand Logo */
+.hero-nav__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.hero-nav__logo-text {
+  font-family: var(--font-headline);
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+}
+
+.hero-nav__logo-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #38bdf8;
+  box-shadow: 0 0 8px #38bdf8;
+}
+
+/* Floating Center Pill Navbar */
+.hero-nav__pill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  padding: 4px 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.hero-nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hero-nav__link {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #94a3b8;
+  text-decoration: none;
+  transition: all 0.22s ease;
+}
+
+.hero-nav__link:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Right CTA Button */
+.hero-nav__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-family: var(--font-headline);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #ffffff;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-nav__cta:hover {
+  background: #38bdf8;
+  border-color: #38bdf8;
+  color: #04070c;
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.45);
+  transform: translateY(-1px);
+}
+
+.hero-nav__cta-arrow {
+  transition: transform 0.22s ease;
+}
+
+.hero-nav__cta:hover .hero-nav__cta-arrow {
+  transform: translateX(3px);
+}
+
+/* --------------------------------------------------------------------------
+   TIER B: CONVEYOR BELT & TRANSFORMATION ENGINE
+   -------------------------------------------------------------------------- */
+.hero-conveyor-wrap {
+  --machine-width: clamp(270px, 32vw, 310px);
+  position: relative;
+  width: 100%;
+  height: clamp(340px, 44vh, 410px);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: clamp(10px, 2vh, 24px) 0;
+  user-select: none;
+}
+
+.conveyor-viewport {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Dual-Track Clip-Path Masking Architecture */
+.conveyor-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+/* Track A: Broken Cards clipped to Left 50% */
+.conveyor-track--broken {
+  clip-path: polygon(0% 0%, 50% 0%, 50% 100%, 0% 100%);
+  z-index: 5;
+}
+
+/* Track B: Polished Cards clipped to Right 50% */
+.conveyor-track--polished {
+  clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%);
+  z-index: 6;
+}
+
+/* Continuous Marquee Animation flowing smoothly from Left to Right */
+.conveyor-track__inner {
+  display: flex;
+  gap: 22px;
+  width: max-content;
+  will-change: transform;
+  animation: conveyor-flow 38s linear infinite;
+}
+
+.hero-conveyor-wrap:hover .conveyor-track__inner {
+  animation-play-state: paused;
+}
+
+@keyframes conveyor-flow {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0%, 0, 0);
+  }
+}
+
+.conveyor-item {
+  flex-shrink: 0;
+}
+
+/* Vignette edge gradients */
+.conveyor-vignette {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: clamp(60px, 12vw, 180px);
+  z-index: 15;
+  pointer-events: none;
+}
+
+.conveyor-vignette--left {
+  left: 0;
+  background: linear-gradient(90deg, var(--color-bg) 0%, transparent 100%);
+}
+
+.conveyor-vignette--right {
+  right: 0;
+  background: linear-gradient(270deg, var(--color-bg) 0%, transparent 100%);
+}
+
+/* --------------------------------------------------------------------------
+   OPTICAL VOLUMETRIC LIGHT FLARE (SVG FILTER MESH)
+   Exponential horn/funnel flare terminating into the central Machine card
+   -------------------------------------------------------------------------- */
+.plasma-beam-track {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: calc(50% - (var(--machine-width) / 2) + 2px);
+  height: 320px;
+  pointer-events: none;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  overflow: visible;
+}
+
+.plasma-optical-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* Subtle high-frequency breathing loop fluctuating between 0.85 and 1.0 */
+.plasma-optical-mesh {
+  animation: plasma-raw-hum 0.72s ease-in-out infinite alternate;
+  transform-origin: center left;
+  will-change: opacity, transform;
+}
+
+@keyframes plasma-raw-hum {
+  0% {
+    opacity: 0.85;
+    transform: scaleY(0.985);
+  }
+  30% {
+    opacity: 0.97;
+    transform: scaleY(1.01);
+  }
+  65% {
+    opacity: 0.89;
+    transform: scaleY(0.99);
+  }
+  100% {
+    opacity: 1.0;
+    transform: scaleY(1.015);
+  }
+}
+
+/* High-speed streaming energy pulses surging into the engine */
+.plasma-stream-surge {
+  stroke-dasharray: 90 200;
+  animation: plasma-surge-flow 1.25s linear infinite;
+  filter: drop-shadow(0 0 6px #38bdf8);
+  opacity: 0.9;
+}
+
+@keyframes plasma-surge-flow {
+  0% { stroke-dashoffset: 290; }
+  100% { stroke-dashoffset: 0; }
+}
+
+/* Impact Point Radiant Flare Breathing */
+.plasma-impact-flare {
+  animation: flare-flicker 0.65s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+@keyframes flare-flicker {
+  0% {
+    opacity: 0.85;
+    transform: scale(0.94);
+  }
+  100% {
+    opacity: 1.0;
+    transform: scale(1.06);
+  }
+}
+
+/* Anamorphic vertical impact flare streak */
+.plasma-impact-vertical {
+  animation: vertical-flare-pulse 1.35s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+@keyframes vertical-flare-pulse {
+  0% {
+    opacity: 0.75;
+    transform: scaleY(0.92);
+  }
+  100% {
+    opacity: 1.0;
+    transform: scaleY(1.08);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   CARD ARCHITECTURE (BROKEN VS. POLISHED)
+   -------------------------------------------------------------------------- */
+.conveyor-card {
+  width: 230px;
+  height: 300px;
+  border-radius: 18px;
+  padding: 18px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+/* --- Left Side: Broken / Outdated Card --- */
+.conveyor-card--broken {
+  background: #10131b;
+  border: 1px dashed rgba(239, 68, 68, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  opacity: 0.9;
+}
+
+.conveyor-card--broken.tilt-left {
+  transform: rotate(-1.5deg);
+}
+
+.conveyor-card--broken.tilt-right {
+  transform: rotate(1.5deg);
+}
+
+.conveyor-card__title--broken {
+  font-family: 'Times New Roman', Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #cbd5e1;
+  margin: 0 0 4px;
+  letter-spacing: -0.01em;
+}
+
+.broken-wireframe {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.broken-wireframe__bar {
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.broken-wireframe__bar--1 { width: 75%; }
+.broken-wireframe__bar--2 { width: 50%; }
+
+.broken-wireframe__box {
+  margin-top: 4px;
+  height: 70px;
+  border-radius: 8px;
+  border: 1px dashed rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.broken-wireframe__cross {
+  font-size: 1.1rem;
+  color: #f87171;
+}
+
+.broken-wireframe__label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: #f87171;
+}
+
+.conveyor-card__warning-icon {
+  font-size: 0.85rem;
+  color: #f87171;
+}
+
+.conveyor-card__footer--broken {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.conveyor-card__metric-val--error {
+  color: #f87171;
+}
+
+/* --- Right Side: Polished / Modern Card --- */
+.conveyor-card--polished {
+  background: #080c14;
+  border: 1.5px solid rgba(56, 189, 248, 0.38);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(56, 189, 248, 0.08);
+}
+
+.conveyor-card__title--polished {
+  font-family: var(--font-headline);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 4px;
+  letter-spacing: -0.02em;
+}
+
+.conveyor-card__subtitle--polished {
+  color: #38bdf8 !important;
+}
+
+.conveyor-card__sparkle {
+  color: #38bdf8;
+  font-size: 0.85rem;
+  animation: sparkle-pulse 2s infinite ease-in-out;
+}
+
+@keyframes sparkle-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.polished-interface {
+  margin-top: 14px;
+  height: 86px;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.polished-interface__preview {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  height: 100%;
+}
+
+.polished-interface__chart {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.polished-interface__chart-svg {
+  width: 100%;
+  height: 30px;
+  overflow: visible;
+  filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.8));
+}
+
+.polished-interface__bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 40px;
+  width: 32px;
+}
+
+.polished-interface__bar {
+  flex: 1;
+  background: linear-gradient(180deg, #38bdf8 0%, #1e3a8a 100%);
+  border-radius: 2px;
+}
+
+.conveyor-card__footer--polished {
+  border-top: 1px solid rgba(56, 189, 248, 0.15);
+}
+
+.conveyor-card__metric-val--cyan {
+  color: #38bdf8;
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+}
+
+/* Shared Card Elements */
+.conveyor-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.conveyor-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.conveyor-tag--error {
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.28);
+}
+
+.conveyor-tag--warning {
+  background: rgba(245, 158, 11, 0.12);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.28);
+}
+
+.conveyor-tag--success {
+  background: rgba(56, 189, 248, 0.14);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+}
+
+.conveyor-tag__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+.conveyor-tag__dot--pulse {
+  box-shadow: 0 0 6px #38bdf8;
+  animation: tag-pulse 2s infinite ease-in-out;
+}
+
+@keyframes tag-pulse {
+  0%, 100% { transform: scale(0.9); opacity: 0.7; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
+
+.conveyor-card__subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.conveyor-card__footer {
+  padding-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.conveyor-card__metric-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.conveyor-card__metric-val {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   THE CENTER "TRANSFORMATION CHAMBER" (FIXED AT 50%, z-20)
+   -------------------------------------------------------------------------- */
+.transformation-chamber {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(270px, 32vw, 310px);
+  height: clamp(340px, 42vh, 380px);
+  z-index: 20;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Soft Rhythmic Pulsing Ambient Aura */
+.transformation-chamber__aura {
+  position: absolute;
+  width: 290px;
+  height: 290px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(56, 189, 248, 0.45) 0%,
+    rgba(37, 99, 235, 0.2) 45%,
+    transparent 72%
+  );
+  filter: blur(28px);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  animation: chamber-pulse 3.8s infinite ease-in-out;
+}
+
+.transformation-chamber__core-glow {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: rgba(56, 189, 248, 0.35);
+  filter: blur(16px);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes chamber-pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(0.92);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.14);
+    opacity: 0.95;
+  }
+}
+
+/* Wide cyan spotlight behind the machine (mix-blend-mode: screen, opacity: 0.6) */
+.chamber-cyan-spotlight {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(56, 189, 248, 0.6) 0%,
+    rgba(37, 99, 235, 0.3) 38%,
+    rgba(99, 102, 241, 0.15) 60%,
+    transparent 80%
+  );
+  filter: blur(48px);
+  mix-blend-mode: screen;
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Glassmorphic Card Frame with Plasma Receptor Border Glow */
+.transformation-chamber__frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  background: rgba(6, 10, 18, 0.76);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1.5px solid rgba(56, 189, 248, 0.35);
+  box-shadow:
+    -8px 0 32px rgba(255, 255, 255, 0.35),
+    -18px 0 55px rgba(56, 189, 248, 0.45),
+    0 0 50px rgba(99, 102, 241, 0.25),
+    inset 16px 0 30px rgba(56, 189, 248, 0.18),
+    inset 0 0 25px rgba(56, 189, 248, 0.12);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* Machine Rim Wrap (Perimeter glow along left, top, and bottom borders) */
+.chamber-perimeter-wrap {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  pointer-events: none;
+  z-index: 12;
+  overflow: hidden;
+}
+
+.chamber-perimeter-wrap__left {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #ffffff;
+  box-shadow: 0 0 10px #ffffff, 0 0 20px #38bdf8;
+}
+
+.chamber-perimeter-wrap__top {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 45px;
+  height: 2px;
+  background: linear-gradient(90deg, #ffffff 0%, #38bdf8 50%, transparent 100%);
+  box-shadow: 0 0 8px #38bdf8;
+}
+
+.chamber-perimeter-wrap__bottom {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 45px;
+  height: 2px;
+  background: linear-gradient(90deg, #ffffff 0%, #38bdf8 50%, transparent 100%);
+  box-shadow: 0 0 8px #38bdf8;
+}
+
+/* Subtle Geometric Concentric Orbital Rings (Low Opacity) */
+.chamber-orbitals {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.14;
+  pointer-events: none;
+}
+
+.chamber-orbitals__svg {
+  width: 190px;
+  height: 190px;
+}
+
+.chamber-orbitals__ring--cw {
+  transform-origin: center;
+  animation: spin-clockwise 28s linear infinite;
+}
+
+.chamber-orbitals__ring--ccw {
+  transform-origin: center;
+  animation: spin-counter 32s linear infinite;
+}
+
+@keyframes spin-clockwise {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spin-counter {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+/* Gliding Vertical Laser Scan Line */
+.chamber-laser {
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 50%;
+  width: 2px;
+  pointer-events: none;
+  animation: laser-sweep 3.2s ease-in-out infinite alternate;
+}
+
+.chamber-laser__beam {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(56, 189, 248, 0.25) 15%,
+    #38bdf8 45%,
+    #ffffff 50%,
+    #38bdf8 55%,
+    rgba(56, 189, 248, 0.25) 85%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 14px #38bdf8,
+    0 0 28px rgba(56, 189, 248, 0.45);
+}
+
+.chamber-laser__core {
+  position: absolute;
+  left: -2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 60px;
+  border-radius: 9999px;
+  background: #ffffff;
+  filter: blur(2px);
+  box-shadow: 0 0 10px #ffffff;
+}
+
+@keyframes laser-sweep {
+  0% { transform: translateX(-95px); }
+  100% { transform: translateX(95px); }
+}
+
+/* Chamber Badges & Telemetry */
+.chamber-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #38bdf8;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.chamber-badge__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #38bdf8;
+  box-shadow: 0 0 6px #38bdf8;
+}
+
+.chamber-core-emblem {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chamber-core-emblem__ring {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(56, 189, 248, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
+}
+
+.chamber-core-emblem__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 0 8px #ffffff;
+}
+
+.chamber-telemetry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px solid rgba(56, 189, 248, 0.2);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+}
+
+.chamber-telemetry__label {
+  color: #94a3b8;
+}
+
+.chamber-telemetry__status {
+  color: #38bdf8;
+  font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   TIER C: BOTTOM TIER - EDITORIAL HEADLINE & SOCIAL PROOF
+   -------------------------------------------------------------------------- */
+.hero-editorial {
+  position: relative;
+  z-index: 10;
+  padding: 0 clamp(20px, 4vw, 60px) clamp(40px, 6vh, 70px);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.hero-editorial__container {
+  max-width: 980px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-editorial__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #38bdf8;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.hero-editorial__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #38bdf8;
+  box-shadow: 0 0 7px #38bdf8;
+}
+
+.hero-editorial__headline {
+  margin: 0 0 16px;
+  font-family: var(--font-headline);
+  font-size: clamp(2.3rem, 4.8vw, 4.2rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  color: #ffffff;
+}
+
+.hero-editorial__description {
+  margin: 0 0 28px;
+  font-family: var(--font-body);
+  font-size: clamp(0.98rem, 1.2vw, 1.12rem);
+  line-height: 1.6;
+  color: #94a3b8;
+  max-width: 640px;
+}
+
+/* Micro Metrics & Availability Badges */
+.hero-editorial__metrics {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.hero-metric-pill {
+  padding: 7px 16px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+}
+
+.hero-metric-pill:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+.hero-metric-pill--active {
+  background: rgba(56, 189, 248, 0.08);
+  border-color: rgba(56, 189, 248, 0.25);
+  color: #f0f9ff;
+}
+
+.hero-metric-pill__pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #38bdf8;
+  box-shadow: 0 0 7px #38bdf8;
+  animation: metric-pulse 2s infinite ease-in-out;
+}
+
+@keyframes metric-pulse {
+  0%, 100% { transform: scale(0.9); opacity: 0.7; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
+
+.hero-metric-pill__icon {
+  color: #38bdf8;
+  font-size: 0.8rem;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE DESIGN (TABLET & MOBILE)
+   -------------------------------------------------------------------------- */
+@media (max-width: 860px) {
+  .hero-nav__pill {
+    display: none; /* Collapses center pill on mobile, keeping logo & CTA */
+  }
+
+  .hero-conveyor-wrap {
+    --machine-width: 250px;
+    height: 350px;
+  }
+
+  .transformation-chamber {
+    width: 250px;
+    height: 330px;
+  }
+
+  .conveyor-card {
+    width: 200px;
+    height: 275px;
+    padding: 14px;
+  }
+
+  .hero-editorial__headline {
+    font-size: clamp(2rem, 7vw, 2.8rem);
+  }
+}

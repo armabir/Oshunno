@@ -1,0 +1,348 @@
+/* ==========================================================================
+   PROJECT SHOWCASE COMPONENT STYLES
+   Minimalist Editorial Horizontal Experience
+   ========================================================================== */
+
+/* Main Section Container */
+.showcase-section {
+  position: relative;
+  width: 100%;
+  background-color: var(--color-bg);
+}
+
+@media (min-width: 900px) {
+  .showcase-section {
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(16px, 2.6vh, 32px) 0;
+    box-sizing: border-box;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   GLOWING SEPARATOR LINES (STRONG CENTER, SOFT CORNER FADE)
+   -------------------------------------------------------------------------- */
+.glowing-separator {
+  position: relative;
+  width: min(88vw, 1100px);
+  margin: 0 auto;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 20;
+  overflow: visible;
+  flex-shrink: 0;
+
+  /* Radial gradient mask to gracefully fade out glow toward the corners */
+  mask-image: radial-gradient(ellipse 65% 100% at 50% 50%, #000000 15%, rgba(0, 0, 0, 0.75) 42%, transparent 88%);
+  -webkit-mask-image: radial-gradient(ellipse 65% 100% at 50% 50%, #000000 15%, rgba(0, 0, 0, 0.75) 42%, transparent 88%);
+}
+
+.glowing-separator--top {
+  margin-bottom: clamp(6px, 1.2vh, 16px);
+}
+
+.glowing-separator--bottom {
+  margin-top: clamp(6px, 1.2vh, 16px);
+}
+
+/* Horizontal core streak: intensely white in center, fading gracefully */
+.glowing-separator__core {
+  position: absolute;
+  width: 100%;
+  height: 1.5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 12%,
+    rgba(59, 130, 246, 0.08) 26%,
+    rgba(96, 165, 250, 0.6) 40%,
+    rgba(219, 234, 254, 0.98) 47%,
+    #ffffff 50%,
+    rgba(219, 234, 254, 0.98) 53%,
+    rgba(96, 165, 250, 0.6) 60%,
+    rgba(59, 130, 246, 0.08) 74%,
+    transparent 88%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 10px rgba(191, 219, 254, 0.95),
+    0 0 20px rgba(96, 165, 250, 0.8),
+    0 0 36px rgba(37, 99, 235, 0.55);
+}
+
+/* Central Anamorphic Elliptical Flare Bloom: strong hot-spot in center */
+.glowing-separator__flare {
+  position: absolute;
+  width: clamp(240px, 34vw, 460px);
+  height: 18px;
+  background: radial-gradient(
+    ellipse 50% 50% at 50% 50%,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(191, 219, 254, 0.88) 22%,
+    rgba(96, 165, 250, 0.58) 50%,
+    rgba(37, 99, 235, 0.16) 74%,
+    transparent 100%
+  );
+  filter: blur(1.5px);
+}
+
+/* Stage: The horizontally moving viewport container */
+.showcase-stage {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+@media (min-width: 900px) {
+  .showcase-stage {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* Track: The horizontally moving container */
+.showcase-track {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--showcase-gap);
+  padding-left: clamp(28px, 6vw, 96px);
+  padding-right: clamp(60px, 12vw, 240px);
+  width: max-content;
+  will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   INTRODUCTORY PANEL
+   -------------------------------------------------------------------------- */
+.showcase-intro {
+  flex-shrink: 0;
+  width: clamp(320px, 48vw, 700px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-right: clamp(24px, 4vw, 56px);
+}
+
+.showcase-intro__inner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2.5vh, 28px);
+}
+
+.showcase-intro__headline {
+  font-family: var(--font-headline);
+  font-size: clamp(2.4rem, 4.8vw, 4.6rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  color: var(--color-text-primary);
+  display: flex;
+  flex-direction: column;
+}
+
+.showcase-intro__line--dim {
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.showcase-intro__description {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.15vw, 1.12rem);
+  line-height: 1.62;
+  color: var(--color-text-secondary);
+  max-width: 480px;
+}
+
+/* --------------------------------------------------------------------------
+   PROJECT CARD (MASSIVE & CINEMATIC PROPORTIONS)
+   -------------------------------------------------------------------------- */
+.project-card {
+  flex-shrink: 0;
+  width: clamp(320px, 54vw, 840px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 2vh, 22px);
+  transition: opacity var(--duration-fast) var(--ease-editorial);
+}
+
+/* Image Link & Interactive Surface */
+.project-card__image-link {
+  display: block;
+  width: 100%;
+  position: relative;
+  text-decoration: none;
+  outline-offset: 4px;
+}
+
+.project-card__image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  transition: border-color var(--duration-medium) var(--ease-editorial);
+}
+
+.project-card__image-link:hover .project-card__image-wrapper {
+  border-color: var(--color-border-hover);
+}
+
+.project-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1);
+  transition: transform var(--duration-slow) var(--ease-editorial);
+  will-change: transform;
+}
+
+.project-card__image-link:hover .project-card__image {
+  transform: scale(1.028);
+}
+
+.project-card__image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(12, 12, 14, 0) 60%,
+    rgba(12, 12, 14, 0.25) 100%
+  );
+  pointer-events: none;
+  opacity: 0.6;
+  transition: opacity var(--duration-medium) var(--ease-editorial);
+}
+
+.project-card__image-link:hover .project-card__image-overlay {
+  opacity: 0.2;
+}
+
+/* Editorial Details Below Image */
+.project-card__details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 4px;
+}
+
+.project-card__title {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: clamp(1.4rem, 2.2vw, 2.1rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  color: var(--color-text-primary);
+}
+
+.project-card__title-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
+  transition: color var(--duration-fast) var(--ease-editorial);
+}
+
+.project-card__title-link:hover {
+  color: var(--color-accent);
+}
+
+.project-card__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  transition: 
+    color var(--duration-fast) var(--ease-editorial),
+    transform var(--duration-fast) var(--ease-editorial);
+}
+
+.project-card__title-link:hover .project-card__arrow,
+.project-card__image-link:hover ~ .project-card__details .project-card__arrow {
+  color: var(--color-text-primary);
+  transform: translate(4px, -4px);
+}
+
+.project-card__description {
+  font-family: var(--font-body);
+  font-size: clamp(0.88rem, 1.05vw, 1.02rem);
+  line-height: 1.58;
+  color: var(--color-text-secondary);
+  max-width: 680px;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   END BUFFER (NATURAL SPACING AT END OF TRACK)
+   -------------------------------------------------------------------------- */
+.showcase-track__end-buffer {
+  flex-shrink: 0;
+  width: clamp(140px, 16vw, 280px);
+  height: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE: MOBILE & TABLET (< 900px)
+   Native horizontal swipeable carousel without pinning
+   -------------------------------------------------------------------------- */
+@media (max-width: 899px) {
+  .showcase-section {
+    padding: 24px 0;
+  }
+
+  .showcase-stage {
+    height: auto;
+    overflow: visible;
+  }
+
+  .showcase-track {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scroll-padding-left: clamp(20px, 5vw, 32px);
+    padding-left: clamp(20px, 5vw, 32px);
+    padding-right: clamp(20px, 5vw, 32px);
+    padding-bottom: 24px;
+    gap: 24px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .showcase-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .showcase-intro {
+    width: 84vw;
+    max-width: 420px;
+    scroll-snap-align: start;
+    padding-right: 0;
+  }
+
+  .showcase-intro__headline {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  .project-card {
+    width: 84vw;
+    max-width: 440px;
+    scroll-snap-align: start;
+  }
+
+  .showcase-track__end-buffer {
+    width: 40vw;
+    max-width: 160px;
+    scroll-snap-align: start;
+  }
+}

@@ -1,0 +1,484 @@
+/* ==========================================================================
+   PRICING SECTION STYLES
+   Recreated from armabir-portfolio with Oshunno Cyan Brand System
+   ========================================================================== */
+
+.pricing-section {
+  position: relative;
+  width: 100%;
+  background-color: var(--color-bg);
+  padding: clamp(70px, 10vh, 130px) clamp(20px, 4vw, 60px);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.pricing-section__container {
+  max-width: 1180px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* --------------------------------------------------------------------------
+   WATERMARK "PRICING" TITLE (CONDENSED OVERSIZED SVG WITH 10-15% OVERLAP)
+   -------------------------------------------------------------------------- */
+.pricing-watermark {
+  width: 100%;
+  position: relative;
+  z-index: 0;
+  margin-bottom: clamp(-40px, -6vw, -80px);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.pricing-watermark__svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.pricing-watermark__text {
+  text-anchor: start;
+}
+
+/* --------------------------------------------------------------------------
+   3-CARD RESPONSIVE GRID
+   -------------------------------------------------------------------------- */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(20px, 2.6vw, 32px);
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+.pricing-grid__item {
+  display: flex;
+  height: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   FOLDER TAB CARD ARCHITECTURE & 3D PARALLAX
+   -------------------------------------------------------------------------- */
+.folder-tab-card {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transform-style: preserve-3d;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.folder-tab-card--popular {
+  z-index: 20;
+}
+
+/* --------------------------------------------------------------------------
+   TOP-RIGHT & BOTTOM-LEFT DUAL LUMINOUS GLOW HALOS
+   -------------------------------------------------------------------------- */
+.folder-tab-card__glow-wrap {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.45s ease-out;
+  z-index: 0;
+}
+
+.folder-tab-card__glow-wrap--active {
+  opacity: 1;
+}
+
+.folder-tab-card--popular .folder-tab-card__glow-wrap {
+  opacity: 0.85;
+}
+
+.folder-tab-card--popular:hover .folder-tab-card__glow-wrap {
+  opacity: 1;
+}
+
+.folder-tab-card__glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Top-Right Glows */
+.folder-tab-card__glow--tr-ambient {
+  top: -24px;
+  right: -24px;
+  width: 190px;
+  height: 160px;
+  filter: blur(24px);
+  background: radial-gradient(
+    circle at 75% 25%,
+    rgba(56, 189, 248, 0.75) 0%,
+    rgba(37, 99, 235, 0.45) 40%,
+    rgba(14, 165, 233, 0.12) 65%,
+    transparent 80%
+  );
+}
+
+.folder-tab-card__glow--tr-core {
+  top: -10px;
+  right: -10px;
+  width: 110px;
+  height: 90px;
+  filter: blur(12px);
+  background: radial-gradient(
+    circle at 75% 25%,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(56, 189, 248, 0.5) 45%,
+    transparent 75%
+  );
+}
+
+/* Bottom-Left Glows */
+.folder-tab-card__glow--bl-ambient {
+  bottom: -24px;
+  left: -24px;
+  width: 190px;
+  height: 160px;
+  filter: blur(24px);
+  background: radial-gradient(
+    circle at 25% 75%,
+    rgba(56, 189, 248, 0.75) 0%,
+    rgba(37, 99, 235, 0.45) 40%,
+    rgba(14, 165, 233, 0.12) 65%,
+    transparent 80%
+  );
+}
+
+.folder-tab-card__glow--bl-core {
+  bottom: -10px;
+  left: -10px;
+  width: 110px;
+  height: 90px;
+  filter: blur(12px);
+  background: radial-gradient(
+    circle at 25% 75%,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(56, 189, 248, 0.5) 45%,
+    transparent 75%
+  );
+}
+
+/* --------------------------------------------------------------------------
+   ASYMMETRIC SVG BACKGROUND CANVAS
+   -------------------------------------------------------------------------- */
+.folder-tab-card__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.7));
+}
+
+.folder-tab-card__accent-stroke {
+  transition: stroke-width 0.35s ease, opacity 0.35s ease;
+}
+
+/* --------------------------------------------------------------------------
+   CARD CONTENT LAYOUT
+   -------------------------------------------------------------------------- */
+.folder-tab-card__content {
+  position: relative;
+  z-index: 10;
+  padding: 28px 24px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 520px;
+  box-sizing: border-box;
+}
+
+.folder-tab-card__header-slot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 24px;
+  margin-bottom: 8px;
+}
+
+.folder-tab-card__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(56, 189, 248, 0.12);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.32);
+}
+
+.folder-tab-card__badge--popular {
+  background: rgba(56, 189, 248, 0.22);
+  color: #ffffff;
+  border-color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.45);
+}
+
+.folder-tab-card__badge-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #38bdf8;
+  box-shadow: 0 0 6px #38bdf8;
+}
+
+.folder-tab-card__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --------------------------------------------------------------------------
+   PRICING CARD INTERIORS
+   -------------------------------------------------------------------------- */
+.pricing-card__header {
+  display: flex;
+  flex-direction: column;
+}
+
+.pricing-card__title {
+  margin: 0 0 10px;
+  font-family: var(--font-headline);
+  font-size: clamp(1.5rem, 2vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+}
+
+.pricing-card__price-row {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.pricing-card__price {
+  font-family: var(--font-headline);
+  font-size: clamp(1.65rem, 2.2vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+}
+
+.pricing-card__price--popular {
+  background: linear-gradient(135deg, #ffffff 15%, #38bdf8 85%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 14px rgba(56, 189, 248, 0.4));
+}
+
+.pricing-card__best-for {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #94a3b8;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.pricing-card__best-for-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+  font-weight: 700;
+}
+
+.pricing-card__best-for-text {
+  color: #cbd5e1;
+}
+
+/* Feature List */
+.pricing-card__features {
+  list-style: none;
+  margin: 0 0 24px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pricing-card__feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.pricing-card__feature-check {
+  margin-top: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+}
+
+.pricing-card__feature-check--highlight {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: rgba(56, 189, 248, 0.45);
+  color: #38bdf8;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.25);
+}
+
+.pricing-card__feature-text {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #94a3b8;
+  transition: color 0.25s ease;
+}
+
+.pricing-card__feature-text--highlight {
+  color: #f1f5f9;
+  font-weight: 500;
+}
+
+/* Primary CTA Button */
+.pricing-card__cta-wrap {
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+.pricing-card__cta {
+  width: 100%;
+  padding: 13px 20px;
+  border-radius: 9999px;
+  font-family: var(--font-headline);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+.pricing-card__cta:hover {
+  background: #38bdf8;
+  border-color: #38bdf8;
+  color: #04070c;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+  transform: translateY(-2px);
+}
+
+.pricing-card__cta--popular {
+  background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
+  border: none;
+  color: #ffffff;
+  box-shadow: 0 0 22px rgba(56, 189, 248, 0.45);
+}
+
+.pricing-card__cta--popular:hover {
+  background: linear-gradient(135deg, #60a5fa 0%, #1d4ed8 100%);
+  color: #ffffff;
+  box-shadow: 0 0 32px rgba(56, 189, 248, 0.7);
+  transform: translateY(-2px);
+}
+
+.pricing-card__cta-arrow {
+  transition: transform 0.25s ease;
+}
+
+.pricing-card__cta:hover .pricing-card__cta-arrow {
+  transform: translateX(4px);
+}
+
+/* --------------------------------------------------------------------------
+   BOTTOM TRAY WITH 5 INDICATOR LEDS
+   -------------------------------------------------------------------------- */
+.folder-tab-card__tray {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.folder-tab-card__led-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.folder-tab-card__led {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #1e293b;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.folder-tab-card__led--active {
+  background-color: #38bdf8;
+  border-color: #38bdf8;
+  box-shadow: 0 0 7px #38bdf8;
+}
+
+.folder-tab-card__tray-label {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE DESIGN (TABLET & MOBILE)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1040px) {
+  .pricing-grid {
+    grid-template-columns: 1fr;
+    max-width: 440px;
+    margin: 0 auto;
+    gap: 36px;
+  }
+
+  .folder-tab-card--popular {
+    transform: none !important;
+  }
+
+  .pricing-watermark {
+    margin-bottom: -20px;
+  }
+}

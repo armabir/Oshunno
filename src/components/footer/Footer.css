@@ -1,0 +1,279 @@
+/* ==========================================================================
+   FOOTER & CONTACT SECTION STYLES
+   Editorial Dark Mode with Full-Viewport Experience & Interactive Particle Banner
+   ========================================================================== */
+
+.site-footer {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #0a0b0e;
+  border-top: none; /* No extra line above title - only glowing separator between sections */
+  box-sizing: border-box;
+  overflow: hidden;
+  color: var(--color-text-primary);
+}
+
+.site-footer__inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(36px, 5vh, 64px) clamp(24px, 5vw, 70px) 0;
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* --------------------------------------------------------------------------
+   PART A: EDITORIAL CONTACT BLOCK
+   -------------------------------------------------------------------------- */
+.footer-hero {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-hero__title {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: clamp(3.2rem, 7.5vw, 6.5rem);
+  font-weight: 700;
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+}
+
+.footer-hero__title-link {
+  color: #ffffff;
+  text-decoration: none;
+  display: inline-block;
+  transition: color 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-hero__title-link:hover {
+  color: #38bdf8;
+  transform: translateX(4px);
+}
+
+/* Hairline Divider */
+.footer-divider {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin: clamp(20px, 3vh, 32px) 0;
+}
+
+/* --------------------------------------------------------------------------
+   PART B: METADATA & NAVIGATION GRID (3 COLUMNS)
+   -------------------------------------------------------------------------- */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.35fr;
+  gap: clamp(24px, 4vw, 56px);
+  align-items: start;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-col__heading {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #64748b;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.footer-col__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-col__link {
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  font-weight: 500;
+  color: #94a3b8;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.24s ease, transform 0.24s ease;
+  width: fit-content;
+}
+
+.footer-col__link:hover {
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+.footer-col__arrow {
+  color: #38bdf8;
+  font-size: 0.9rem;
+  transition: transform 0.24s ease, color 0.24s ease;
+  display: inline-block;
+}
+
+.footer-col__link:hover .footer-col__arrow {
+  transform: translate(2px, -2px);
+  color: #ffffff;
+}
+
+/* Column 3: Contact Block */
+.footer-contact-block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.footer-email-link {
+  font-family: var(--font-headline);
+  font-size: clamp(1.15rem, 1.5vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.24s ease;
+}
+
+.footer-email-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1.5px;
+  background-color: #38bdf8;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-email-link:hover {
+  color: #38bdf8;
+}
+
+.footer-email-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* --------------------------------------------------------------------------
+   PART C: COPYRIGHT & UTILITIES BAR
+   -------------------------------------------------------------------------- */
+.footer-bottom-bar {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: clamp(24px, 3.5vh, 40px);
+  padding: 18px 0 clamp(20px, 3vh, 32px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-bottom-bar__copy {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: #64748b;
+}
+
+.footer-back-to-top {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #94a3b8;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: color 0.24s ease, border-color 0.24s ease, background-color 0.24s ease;
+}
+
+.footer-back-to-top__arrow {
+  font-size: 0.9rem;
+  transition: transform 0.24s ease;
+  color: #38bdf8;
+}
+
+.footer-back-to-top:hover {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.12);
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.footer-back-to-top:hover .footer-back-to-top__arrow {
+  transform: translateY(-3px);
+  color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   PART D: BOTTOM PARTICLE MATRIX BANNER WRAPPER
+   -------------------------------------------------------------------------- */
+.footer-canvas-wrapper {
+  width: 100%;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: #060709;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE DESIGN (TABLET & MOBILE)
+   -------------------------------------------------------------------------- */
+@media (max-width: 860px) {
+  .site-footer {
+    min-height: auto;
+    padding-top: 50px;
+  }
+
+  .site-footer__inner {
+    padding-top: 0;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .footer-col--contact {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .footer-bottom-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
