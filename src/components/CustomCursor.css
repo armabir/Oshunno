@@ -1,77 +1,167 @@
 /* ==========================================================================
-   CUSTOM NEGATIVE PROJECT CURSOR STYLES
-   154px Diameter (Negative Difference Mode & Inversion)
+   CUSTOM SITE-WIDE & PROJECT CURSOR STYLES
+   - Full-website dotted rotating follower ring & precision center dot
+   - Atmospheric ambient WHITE background glow and WHITE drop-shadows
+   - Universal cursor: none suppression on buttons/links to avoid native hand cursor
+   - Seamless switch to 110px negative inversion disc on project showcase
    ========================================================================== */
 
-.custom-project-cursor {
+/* 1. Global Ambient Background Glow (Atmospheric Pure White Illumination - Focused Radius) */
+.site-cursor-glow {
   position: fixed;
   top: 0;
   left: 0;
-  width: 154px;
-  height: 154px;
+  width: 160px;
+  height: 160px;
   border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999999;
+  pointer-events: none !important;
+  z-index: 9999980;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.08) 36%,
+    rgba(255, 255, 255, 0.015) 58%,
+    transparent 72%
+  );
+  filter: blur(12px);
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+/* 2. Global Dotted Rotating Follower Ring */
+.site-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none !important;
+  background: transparent !important;
+  pointer-events: none !important;
+  z-index: 9999990;
+  will-change: transform;
   display: flex;
   align-items: center;
   justify-content: center;
-  will-change: transform;
-
-  /* True Negative Display: Inverts backgrounds, typography, and photography */
-  background-color: #ffffff;
-  color: #000000;
-  mix-blend-mode: difference !important;
-  isolation: auto !important;
 }
 
-.custom-project-cursor__content {
+.site-cursor-ring__spinner {
+  width: 100%;
+  height: 100%;
+  display: block;
+  animation: cursor-ring-rotate 7s linear infinite;
+  transform-origin: center center;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 12px rgba(255, 255, 255, 0.5));
+}
+
+@keyframes cursor-ring-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 3. Global Precision Center Dot (Pure White with White Glow/Shadow) */
+.site-cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 0 8px #ffffff, 0 0 16px rgba(255, 255, 255, 0.95);
+  pointer-events: none !important;
+  z-index: 9999991;
+  will-change: transform;
+}
+
+/* 4. Negative Circle Disc: Inverts underlying webpage & photography directly (Project Only) */
+.custom-cursor-disc {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  pointer-events: none !important;
+  z-index: 9999998;
+  background-color: #ffffff;
+  mix-blend-mode: difference !important;
+  will-change: transform;
+}
+
+/* 5. Text Layer: Sits directly on top with normal blending (ALWAYS pure black, Project Only) */
+.custom-cursor-text {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 110px;
+  height: 110px;
+  pointer-events: none !important;
+  z-index: 9999999;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
+  gap: 2px;
   text-align: center;
   user-select: none;
-  pointer-events: none;
+  color: #000000 !important;
+  will-change: transform;
 }
 
-.custom-project-cursor__line {
+.custom-cursor-text__line {
   font-family: var(--font-mono);
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 11.5px;
+  font-weight: 800;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  line-height: 1.2;
-  color: #000000;
+  line-height: 1.25;
+  color: #000000 !important;
 }
 
-.custom-project-cursor__arrow-wrap {
+.custom-cursor-text__arrow-wrap {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 2px;
-  color: #000000;
+  color: #000000 !important;
 }
 
-.custom-project-cursor__arrow {
+.custom-cursor-text__arrow {
   display: block;
-  stroke: #000000;
+  stroke: #000000 !important;
 }
 
-/* Hide native cursor ONLY over the project preview interactive container */
+/* Completely suppress browser native hand/pointer cursor everywhere on desktop */
 @media (hover: hover) and (pointer: fine) {
-  [data-cursor="project"] {
+  *,
+  *::before,
+  *::after {
     cursor: none !important;
   }
 
-  [data-cursor="project"] * {
-    cursor: none !important;
+  input,
+  input *,
+  textarea,
+  textarea *,
+  select,
+  select * {
+    cursor: text !important;
   }
 }
 
 /* Hide custom cursor on mobile / touchscreens */
 @media not all and (hover: hover) and (pointer: fine) {
-  .custom-project-cursor {
+  .site-cursor-glow,
+  .site-cursor-ring,
+  .site-cursor-dot,
+  .custom-cursor-disc,
+  .custom-cursor-text {
     display: none !important;
   }
 }

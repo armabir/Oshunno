@@ -1,12 +1,12 @@
 /* ==========================================================================
    PARTICLE TEXT CANVAS STYLES
-   Interactive rasterized dot matrix banner ("OSHUNNO")
+   Interactive rasterized dot matrix banner ("POINTFEX")
    ========================================================================== */
 
 .particle-text-banner {
   position: relative;
   width: 100%;
-  height: clamp(180px, 24vh, 260px);
+  height: clamp(270px, 36vh, 400px);
   display: flex;
   align-items: center;
   justify-content: center;

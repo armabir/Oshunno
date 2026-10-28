@@ -12,7 +12,7 @@ gsap.registerPlugin(ScrollTrigger);
 /**
  * ProjectShowcase Component
  * 
- * Section 01 of Oshunno.com: Horizontal Project Showcase.
+ * Section 01 of Pointfex.com: Horizontal Project Showcase.
  * - Framed by cinematic glowing lens-flare beams above and below.
  * - Desktop: Reduced section height with pinned horizontal scrolling.
  * - Mobile/Tablet: Native touch-optimized swipeable row with CSS scroll-snap.
@@ -37,16 +37,16 @@ export default function ProjectShowcase() {
         return Math.max(0, track.scrollWidth - window.innerWidth);
       };
 
-      // Set up pinned horizontal scroll animation
+      // Set up pinned horizontal scroll animation synchronized with Lenis smooth scroll
       const scrollTween = gsap.to(track, {
         x: () => -getScrollDistance(),
-        ease: "none",
+        ease: "none", // Direct linear pacing (eliminates slow crawl at start and end)
         scrollTrigger: {
           trigger: section,
-          pin: section, // Pins the framed showcase including top & bottom glowing lines
+          pin: section,
           start: "top top",
           end: () => `+=${getScrollDistance()}`,
-          scrub: 1, // responsive direct input sync with silky inertia
+          scrub: 0.6, // Snappy yet silky sync with Lenis smooth scroll
           invalidateOnRefresh: true,
           anticipatePin: 1,
         },
@@ -90,12 +90,6 @@ export default function ProjectShowcase() {
       className="showcase-section"
       aria-label="Selected Projects Showcase"
     >
-      {/* Top Glowing Flare Line */}
-      <div className="glowing-separator glowing-separator--top" aria-hidden="true">
-        <div className="glowing-separator__core" />
-        <div className="glowing-separator__flare" />
-      </div>
-
       {/* Stage: Horizontally moving track container */}
       <div className="showcase-stage">
         <div ref={trackRef} className="showcase-track">
@@ -114,12 +108,6 @@ export default function ProjectShowcase() {
           {/* End buffer element to ensure generous terminal spacing and prevent clipping */}
           <div className="showcase-track__end-buffer" aria-hidden="true" />
         </div>
-      </div>
-
-      {/* Bottom Glowing Flare Line */}
-      <div className="glowing-separator glowing-separator--bottom" aria-hidden="true">
-        <div className="glowing-separator__core" />
-        <div className="glowing-separator__flare" />
       </div>
     </section>
   );

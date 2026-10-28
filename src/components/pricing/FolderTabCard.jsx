@@ -3,7 +3,7 @@ import { useRef, useState, useId } from "react";
 /**
  * FolderTabCard Component
  * 
- * Recreated from armabir-portfolio with Oshunno cyan brand styling:
+ * Recreated from armabir-portfolio with Pointfex cyan brand styling:
  * - Asymmetric vector folder-tab geometry with precise corner radius and notch.
  * - 3D mouse parallax tilt physics.
  * - Directional cyan rim light stroke concentrated at top-right and bottom-left.
@@ -20,22 +20,7 @@ export default function FolderTabCard({
 }) {
   const cardRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const uniqueId = useId().replace(/:/g, "");
-
-  // 3D Parallax Tilt Physics
-  const handleMouseMove = (e) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-
-    // Subtle tilt: -4.5deg to +4.5deg
-    const rotateX = (0.5 - y) * 9;
-    const rotateY = (x - 0.5) * 9;
-
-    setTilt({ x: rotateX, y: rotateY });
-  };
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -43,7 +28,6 @@ export default function FolderTabCard({
 
   const handleMouseLeave = () => {
     setIsHovered(false);
-    setTilt({ x: 0, y: 0 });
   };
 
   const cardPathD =
@@ -52,20 +36,16 @@ export default function FolderTabCard({
   return (
     <div
       ref={cardRef}
-      onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={`folder-tab-card ${isPopular ? "folder-tab-card--popular" : ""} ${className}`}
-      style={{
-        transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale3d(${
-          isHovered ? 1.02 : isPopular ? 1.03 : 1
-        }, ${isHovered ? 1.02 : isPopular ? 1.03 : 1}, 1)`,
-      }}
+      className={`folder-tab-card ${isPopular ? "folder-tab-card--popular" : ""} ${
+        isHovered ? "folder-tab-card--hovered" : ""
+      } ${className}`}
     >
-      {/* Top-Right & Bottom-Left Luminous Dual Halos */}
+      {/* Top-Right & Bottom-Left Luminous Dual Halos: glows only on hover */}
       <div
         className={`folder-tab-card__glow-wrap ${
-          isHovered || isPopular ? "folder-tab-card__glow-wrap--active" : ""
+          isHovered ? "folder-tab-card__glow-wrap--active" : ""
         }`}
         aria-hidden="true"
       >
@@ -166,9 +146,9 @@ export default function FolderTabCard({
         {/* Injected Tier Content */}
         <div className="folder-tab-card__body">{children}</div>
 
-        {/* Bottom Tray: 5 Sleek Indicator LEDs */}
+        {/* Bottom Tray: Sleek Indicator LEDs */}
         <div className="folder-tab-card__tray">
-          <div className="folder-tab-card__led-group">
+          <div className="folder-tab-card__led-group" aria-label={`Tier rating ${activeDots} of ${totalDots}`}>
             {Array.from({ length: totalDots }).map((_, idx) => {
               const isActive = idx < activeDots;
               return (
@@ -181,9 +161,6 @@ export default function FolderTabCard({
               );
             })}
           </div>
-          <span className="folder-tab-card__tray-label">
-            {activeDots}/{totalDots} TIER INTENSITY
-          </span>
         </div>
       </div>
     </div>

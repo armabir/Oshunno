@@ -1,0 +1,101 @@
+/* ==========================================================================
+   SECTION GAP & GLOWING DIVIDER STYLES
+   - Generous vertical breathing room between website sections
+   - Compact, concentrated laser line with hot-white core and cyan bloom
+   ========================================================================== */
+
+.section-gap-divider {
+  position: relative;
+  width: 100%;
+  height: clamp(80px, 10vh, 110px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+/* 50/50 partition background split so glowing line sits at the exact horizon */
+.section-gap-divider--dark-to-light {
+  background: linear-gradient(
+    180deg,
+    var(--color-bg) 0%,
+    var(--color-bg) 50%,
+    var(--color-bg-alt) 50%,
+    var(--color-bg-alt) 100%
+  );
+}
+
+.section-gap-divider--light-to-dark {
+  background: linear-gradient(
+    180deg,
+    var(--color-bg-alt) 0%,
+    var(--color-bg-alt) 50%,
+    var(--color-bg) 50%,
+    var(--color-bg) 100%
+  );
+}
+
+/* Ensure glowing-separator styling is globally consistent across all section dividers */
+.section-gap-divider .glowing-separator {
+  position: relative;
+  width: clamp(260px, 38vw, 480px);
+  margin: 0 auto;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 20;
+  overflow: visible;
+  flex-shrink: 0;
+
+  mask-image: radial-gradient(ellipse 60% 100% at 50% 50%, #000000 15%, rgba(0, 0, 0, 0.75) 45%, transparent 90%);
+  -webkit-mask-image: radial-gradient(ellipse 60% 100% at 50% 50%, #000000 15%, rgba(0, 0, 0, 0.75) 45%, transparent 90%);
+}
+
+.section-gap-divider .glowing-separator__core {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 1.5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 10%,
+    rgba(59, 130, 246, 0.1) 22%,
+    rgba(96, 165, 250, 0.65) 38%,
+    rgba(219, 234, 254, 0.98) 47%,
+    #ffffff 50%,
+    rgba(219, 234, 254, 0.98) 53%,
+    rgba(96, 165, 250, 0.65) 62%,
+    rgba(59, 130, 246, 0.1) 78%,
+    transparent 90%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 10px rgba(191, 219, 254, 0.95),
+    0 0 20px rgba(96, 165, 250, 0.8),
+    0 0 36px rgba(37, 99, 235, 0.55);
+}
+
+.section-gap-divider .glowing-separator__flare {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(130px, 18vw, 220px);
+  height: 18px;
+  background: radial-gradient(
+    ellipse 50% 50% at 50% 50%,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(191, 219, 254, 0.88) 22%,
+    rgba(96, 165, 250, 0.58) 50%,
+    rgba(37, 99, 235, 0.16) 74%,
+    transparent 100%
+  );
+  filter: blur(1.5px);
+}

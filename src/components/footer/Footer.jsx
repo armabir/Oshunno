@@ -1,16 +1,19 @@
 import ParticleTextCanvas from "./ParticleTextCanvas";
+import { useContactModal } from "../../context/ContactModalContext";
 import "./Footer.css";
 
 /**
  * Footer Component
  * 
- * Editorial minimalist dark-mode agency footer & contact section for Oshunno.com.
+ * Editorial minimalist dark-mode agency footer & contact section for Pointfex.com.
  * - Part A: High-impact editorial headline ("Let’s Collaborate!").
  * - Part B: 3-column metadata & navigation grid (MENU, CONNECT, SAY HELLO).
  * - Part C: Copyright & "BACK TO TOP ↑" utility action.
- * - Part D: Interactive rasterized dot/particle matrix canvas ("OSHUNNO").
+ * - Part D: Interactive rasterized dot/particle matrix canvas ("POINTFEX").
  */
 export default function Footer() {
+  const { openContactModal } = useContactModal();
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -32,13 +35,29 @@ export default function Footer() {
         {/* Part A: Editorial Contact Block */}
         <div className="footer-hero">
           <h2 className="footer-hero__title">
-            <a
-              href="mailto:hello@oshunno.com"
+            <button
+              type="button"
+              onClick={() => openContactModal()}
               className="footer-hero__title-link"
-              aria-label="Send email to hello@oshunno.com to collaborate"
+              aria-label="Start a project - Let's Collaborate"
             >
-              Let’s Collaborate!
-            </a>
+              <span>Let’s Collaborate!</span>
+              <span className="footer-hero__arrow" aria-hidden="true">
+                <svg
+                  width="0.82em"
+                  height="0.82em"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="7" y1="17" x2="17" y2="7" />
+                  <polyline points="7 7 17 7 17 17" />
+                </svg>
+              </span>
+            </button>
           </h2>
         </div>
 
@@ -146,13 +165,14 @@ export default function Footer() {
           <div className="footer-col footer-col--contact">
             <h3 className="footer-col__heading">SAY HELLO</h3>
             <div className="footer-contact-block">
-              <a
-                href="mailto:hello@oshunno.com"
+              <button
+                type="button"
+                onClick={() => openContactModal()}
                 className="footer-email-link"
-                aria-label="Send email to hello@oshunno.com"
+                aria-label="Open contact modal to send message to hello@pointfex.com"
               >
-                hello@oshunno.com
-              </a>
+                hello@pointfex.com
+              </button>
             </div>
           </div>
         </div>
@@ -160,7 +180,7 @@ export default function Footer() {
         {/* Part C: Copyright & Utilities Bar */}
         <div className="footer-bottom-bar">
           <p className="footer-bottom-bar__copy">
-            © 2026 Oshunno. All rights reserved.
+            © 2026 Pointfex. All rights reserved.
           </p>
           <button
             type="button"
@@ -174,9 +194,9 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Part D: Bottom Interactive Particle Matrix Banner ("OSHUNNO") */}
+      {/* Part D: Bottom Interactive Particle Matrix Banner ("POINTFEX") */}
       <div className="footer-canvas-wrapper">
-        <ParticleTextCanvas text="OSHUNNO" />
+        <ParticleTextCanvas text="POINTFEX" />
       </div>
     </footer>
   );

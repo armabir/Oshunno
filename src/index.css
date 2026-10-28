@@ -1,11 +1,12 @@
 /* ==========================================================================
-   OSHUNNO DESIGN SYSTEM & FOUNDATION TOKENS
+   POINTFEX DESIGN SYSTEM & FOUNDATION TOKENS
    Minimalist Editorial Web Agency Portfolio
    ========================================================================== */
 
 :root {
   /* Color Palette - Minimalist Dark Editorial */
-  --color-bg: #0c0c0e;
+  --color-bg: #07080b; /* Darker void black */
+  --color-bg-alt: #10131d; /* Slightly lighter editorial obsidian slate */
   --color-bg-secondary: #131316;
   --color-surface: #17171b;
   --color-text-primary: #f5f5f7;

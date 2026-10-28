@@ -1,5 +1,5 @@
 /**
- * Pricing Tiers Data for Oshunno.com
+ * Pricing Tiers Data for Pointfex.com
  * Formatted with exact client requirements and tier structure.
  */
 export const PRICING_TIERS = [
@@ -54,7 +54,6 @@ export const PRICING_TIERS = [
       { text: "API and third-party integrations", highlight: true },
       { text: "Advanced performance and technical SEO", highlight: true },
       { text: "Priority support during the project", highlight: true },
-      { text: "Extended testing and launch assistance", highlight: true },
     ],
     buttonText: "Inquire Signature",
     activeDots: 5,

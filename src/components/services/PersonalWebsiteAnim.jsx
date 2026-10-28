@@ -2,41 +2,59 @@
  * PersonalWebsiteAnim Component
  * 
  * Animation for Service 02: Personal Website
- * Features an editorial personal digital residence card with floating holographic presence badge
- * and live audio/voice frequency waveform.
+ * Features an executive profile / person in the center surrounded by
+ * two animated orbital rings with rotating satellite dots.
  */
 export default function PersonalWebsiteAnim() {
   return (
     <div className="service-visual service-visual--personal" aria-hidden="true">
-      <div className="personal-card">
-        {/* Holographic Avatar / Crest Emblem */}
-        <div className="personal-card__avatar">
-          <div className="personal-card__avatar-glow" />
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="personal-card__avatar-icon">
-            <circle cx="12" cy="8" r="4" stroke="#38bdf8" strokeWidth="1.8" />
-            <path d="M5 20C5 16.5 8 14 12 14C16 14 19 16.5 19 20" stroke="#60a5fa" strokeWidth="1.8" strokeLinecap="round" />
-          </svg>
-          <span className="personal-card__online-dot" />
-        </div>
-
-        {/* Live Audio / Frequency Waveform */}
-        <div className="personal-card__presence">
-          <div className="personal-card__meta">
-            <span className="personal-card__handle">AUTHORITY / RESIDENCE</span>
-            <span className="personal-card__status">LIVE • Q1</span>
-          </div>
-
-          <div className="personal-card__waveform">
-            <span className="personal-card__bar personal-card__bar--1" />
-            <span className="personal-card__bar personal-card__bar--2" />
-            <span className="personal-card__bar personal-card__bar--3" />
-            <span className="personal-card__bar personal-card__bar--4" />
-            <span className="personal-card__bar personal-card__bar--5" />
-            <span className="personal-card__bar personal-card__bar--6" />
-            <span className="personal-card__bar personal-card__bar--7" />
-            <span className="personal-card__bar personal-card__bar--8" />
+      <div className="personal-orbit-stage">
+        {/* Orbital Ring 1: Inner Orbit with Rotating Satellite Dot */}
+        <div className="personal-orbit personal-orbit--inner">
+          <div className="personal-orbit__track" />
+          <div className="personal-orbit__satellite personal-orbit__satellite--1">
+            <span className="personal-satellite-dot personal-satellite-dot--cyan" />
           </div>
         </div>
+
+        {/* Orbital Ring 2: Outer Orbit with 2 Rotating Satellite Dots */}
+        <div className="personal-orbit personal-orbit--outer">
+          <div className="personal-orbit__track personal-orbit__track--dashed" />
+          <div className="personal-orbit__satellite personal-orbit__satellite--2">
+            <span className="personal-satellite-dot personal-satellite-dot--white" />
+          </div>
+          <div className="personal-orbit__satellite personal-orbit__satellite--3">
+            <span className="personal-satellite-dot personal-satellite-dot--blue" />
+          </div>
+        </div>
+
+        {/* Center Profile / Person Avatar Crest */}
+        <div className="personal-center-profile">
+          <div className="personal-center-profile__inner">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              className="personal-center-profile__icon"
+            >
+              {/* Refined Executive Silhouette */}
+              <circle cx="12" cy="7.5" r="4" stroke="#ffffff" strokeWidth="1.8" />
+              <path
+                d="M4.5 20.5C4.5 16.634 7.85786 13.5 12 13.5C16.1421 13.5 19.5 16.634 19.5 20.5"
+                stroke="#38bdf8"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              />
+            </svg>
+          </div>
+          <div className="personal-center-profile__glow" />
+        </div>
+
+        {/* Ambient Cosmic Spark Points */}
+        <span className="personal-spark personal-spark--1" />
+        <span className="personal-spark personal-spark--2" />
+        <span className="personal-spark personal-spark--3" />
       </div>
     </div>
   );

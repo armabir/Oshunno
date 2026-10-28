@@ -1,90 +1,202 @@
+import { useState, useEffect } from "react";
+import { useContactModal } from "../../context/ContactModalContext";
+
 /**
- * Navbar Component
+ * Navigation Items matching the exact sections of the website:
+ * - Home: Conveyor Transformation Chamber & Editorial Header (#hero)
+ * - Services: Interlocking bespoke service cards (#services)
+ * - Work: Pinned horizontal portfolio showcase (#selected-projects)
+ * - Pricing: Transparent asymmetric folder-tab cards (#pricing)
+ * - Contact: Interactive particle text matrix & footer form (#contact)
+ */
+const NAV_ITEMS = [
+  { label: "Home", id: "hero" },
+  { label: "Services", id: "services" },
+  { label: "Work", id: "selected-projects" },
+  { label: "Pricing", id: "pricing", hasDot: true },
+  { label: "Contact", id: "contact" },
+];
+
+/**
+ * Navbar Component (Floating Glass Island)
  * 
- * Top Tier Header:
- * - Left: "OSHUNNO" logo with radiant cyan mark.
- * - Center: Floating minimal pill navbar with backdrop-blur.
- * - Right: "Start a Project →" button with soft cyan hover aura.
+ * Features:
+ * - Floating glassmorphic island capsule with 50px backdrop-blur & 1px specular rim.
+ * - Left: Official Pointfex brand mark & typography.
+ * - Center: Real website section navigation links with tactile glass hover & active scroll spy.
+ * - Right: High-contrast white "Let's Talk!" CTA pill button.
+ * - Mobile: Responsive hamburger toggle with animated icon and sliding glass drawer.
  */
 export default function Navbar() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("hero");
+  const { openContactModal } = useContactModal();
+
+  // Scroll spy to highlight the current section as the user scrolls
+  useEffect(() => {
+    const handleScroll = () => {
+      // 1. Very top of page -> Home
+      if (window.scrollY < 180) {
+        setActiveSection("hero");
+        return;
+      }
+
+      // 2. Near bottom of page -> Contact
+      const scrollHeight = document.documentElement.scrollHeight;
+      if (window.innerHeight + window.scrollY >= scrollHeight - 80) {
+        setActiveSection("contact");
+        return;
+      }
+
+      // 3. Focal point in the upper-middle third of the viewport
+      const focalPoint = window.scrollY + window.innerHeight * 0.35;
+
+      for (let i = NAV_ITEMS.length - 1; i >= 0; i--) {
+        const item = NAV_ITEMS[i];
+        const el = document.getElementById(item.id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          const top = rect.top + window.scrollY;
+          if (focalPoint >= top) {
+            setActiveSection(item.id);
+            return;
+          }
+        }
+      }
+
+      setActiveSection("hero");
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const scrollTo = (e, id) => {
     e.preventDefault();
-    if (!id || id === "#") {
+    setMobileOpen(false);
+    if (!id || id === "#" || id === "hero") {
       window.scrollTo({ top: 0, behavior: "smooth" });
+      setActiveSection("hero");
       return;
     }
     const target = document.getElementById(id);
     if (target) {
       target.scrollIntoView({ behavior: "smooth" });
+      setActiveSection(id);
     }
   };
 
   return (
-    <header className="hero-nav-wrapper">
-      <div className="hero-nav">
-        {/* Left: Brand Logo */}
-        <a
-          href="#"
-          onClick={(e) => scrollTo(e, "#")}
-          className="hero-nav__logo"
-          aria-label="Oshunno Home"
-        >
-          <span className="hero-nav__logo-text">OSHUNNO</span>
-          <span className="hero-nav__logo-dot" aria-hidden="true" />
-        </a>
+    <header className="header-section">
+      <div className="navbar-container">
+        <div className="na-outer-border">
+          <div className="nav-inner-wrap">
+            <div className="nav-inner">
+              {/* Brand Logo Link */}
+              <a
+                href="#"
+                onClick={(e) => scrollTo(e, "#")}
+                className="brand-logo-link"
+                aria-label="Pointfex Home"
+              >
+                <img
+                  src="/logo.png"
+                  alt="Pointfex Logo"
+                  className="brand-logo-img"
+                />
+                <span className="brand-logo-text">POINTFEX</span>
+              </a>
 
-        {/* Center: Floating Minimal Pill Navbar */}
-        <nav className="hero-nav__pill" aria-label="Main Navigation">
-          <ul className="hero-nav__list" role="list">
-            <li>
-              <a
-                href="#selected-projects"
-                onClick={(e) => scrollTo(e, "selected-projects")}
-                className="hero-nav__link"
-              >
-                Work
-              </a>
-            </li>
-            <li>
-              <a
-                href="#services"
-                onClick={(e) => scrollTo(e, "services")}
-                className="hero-nav__link"
-              >
-                Services
-              </a>
-            </li>
-            <li>
-              <a
-                href="#pricing"
-                onClick={(e) => scrollTo(e, "pricing")}
-                className="hero-nav__link"
-              >
-                Pricing
-              </a>
-            </li>
-            <li>
-              <a
-                href="#contact"
-                onClick={(e) => scrollTo(e, "contact")}
-                className="hero-nav__link"
-              >
-                About
-              </a>
-            </li>
-          </ul>
-        </nav>
+              {/* Desktop Navigation Links */}
+              <nav className="nav-menu-2" aria-label="Main Navigation">
+                {NAV_ITEMS.map((item) => {
+                  const isActive = activeSection === item.id;
+                  return (
+                    <a
+                      key={item.id}
+                      href={`#${item.id}`}
+                      onClick={(e) => scrollTo(e, item.id)}
+                      className={`nav-link-2 ${isActive ? "is-active" : ""} ${
+                        item.hasDot ? "nav-link-2--pricing" : ""
+                      }`}
+                    >
+                      <span>{item.label}</span>
+                      {item.hasDot && (
+                        <span className="pricing-logo" aria-hidden="true" />
+                      )}
+                    </a>
+                  );
+                })}
+              </nav>
 
-        {/* Right: CTA Button */}
-        <div className="hero-nav__action">
-          <a
-            href="#contact"
-            onClick={(e) => scrollTo(e, "contact")}
-            className="hero-nav__cta"
-          >
-            <span>Start a Project</span>
-            <span className="hero-nav__cta-arrow" aria-hidden="true">→</span>
-          </a>
+              {/* Desktop CTA Button */}
+              <div className="nav-button-wrap desktop-only">
+                <button
+                  type="button"
+                  onClick={() => openContactModal()}
+                  className="button-03"
+                  aria-label="Let's Talk"
+                >
+                  <div className="button-text-wrapper">
+                    <div className="button-text-wrap">
+                      <span className="paragraph-02-m">Let&apos;s Talk!</span>
+                    </div>
+                  </div>
+                </button>
+              </div>
+
+              {/* Mobile Hamburger Toggle Button */}
+              <button
+                type="button"
+                className="menu-button-2"
+                aria-label="Toggle navigation menu"
+                aria-expanded={mobileOpen}
+                onClick={() => setMobileOpen((prev) => !prev)}
+              >
+                <div className={`hamburger ${mobileOpen ? "is-open" : ""}`}>
+                  <span className="hamburger-line-top" />
+                  <span className="hamburger-line-middle" />
+                  <span className="hamburger-line-bottom" />
+                </div>
+              </button>
+            </div>
+
+            {/* Mobile Navigation Drawer */}
+            <div className={`mobile-nav-drawer ${mobileOpen ? "is-open" : ""}`}>
+              {NAV_ITEMS.map((item) => {
+                const isActive = activeSection === item.id;
+                return (
+                  <a
+                    key={item.id}
+                    href={`#${item.id}`}
+                    onClick={(e) => scrollTo(e, item.id)}
+                    className={`mobile-nav-link ${isActive ? "is-active" : ""}`}
+                  >
+                    <span>{item.label}</span>
+                    {item.hasDot && (
+                      <span className="pricing-logo" aria-hidden="true" />
+                    )}
+                  </a>
+                );
+              })}
+              <div className="mobile-nav-cta">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileOpen(false);
+                    openContactModal();
+                  }}
+                  className="button-03"
+                  style={{ width: "100%" }}
+                >
+                  <div className="button-text-wrapper">
+                    <span className="paragraph-02-m">Let&apos;s Talk!</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </header>

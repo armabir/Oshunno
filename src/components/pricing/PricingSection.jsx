@@ -1,24 +1,23 @@
 import FolderTabCard from "./FolderTabCard";
 import { PRICING_TIERS } from "./pricingData";
+import { useContactModal } from "../../context/ContactModalContext";
 import "./PricingSection.css";
 
 /**
  * PricingSection Component
  * 
- * Recreated from armabir-portfolio with Oshunno cyan brand styling:
+ * Recreated from armabir-portfolio with Pointfex cyan brand styling:
  * - Full-width tall condensed SVG watermark "PRICING" with 10-15% card overlap.
  * - 3-column asymmetric folder-tab card grid.
  * - Essential, Professional (Most Popular), and Signature tiers.
  * - Interactive 3D tilt physics and directional cyan rim light glow.
+ * - Clicking any tier card opens ContactModal with that tier auto-selected.
  */
 export default function PricingSection() {
+  const { openContactModal } = useContactModal();
+
   const handleTierClick = (tier) => {
-    const contactSection = document.getElementById("contact");
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: "smooth" });
-    } else {
-      window.open(`mailto:hello@oshunno.com?subject=Inquiry regarding ${tier.tierName} Tier`, "_self");
-    }
+    openContactModal(tier.id);
   };
 
   return (
@@ -42,7 +41,7 @@ export default function PricingSection() {
             </defs>
             <text
               x="20"
-              y="190"
+              y="240"
               fontFamily="'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif"
               fontSize="240"
               fontWeight="900"
@@ -59,17 +58,25 @@ export default function PricingSection() {
 
         {/* 3-Card Responsive Grid */}
         <div className="pricing-grid">
-          {PRICING_TIERS.map((tier) => {
+          {PRICING_TIERS.map((tier, index) => {
             const isFeatured = tier.isPopular;
+            const isFirst = index === 0;
+            const isThird = index === 2;
 
             return (
-              <div key={tier.id} className="pricing-grid__item">
+              <div
+                key={tier.id}
+                className={`pricing-grid__item ${isFirst ? "pricing-grid__item--compact" : ""
+                  } ${isFeatured ? "pricing-grid__item--popular" : ""} ${isThird ? "pricing-grid__item--signature" : ""
+                  }`}
+              >
                 <FolderTabCard
                   isPopular={isFeatured}
                   activeDots={tier.activeDots}
                   totalDots={5}
                   badge={tier.badge}
-                  className="pricing-card"
+                  className={`pricing-card ${isFirst ? "pricing-card--compact" : ""
+                    } ${isThird ? "pricing-card--signature" : ""}`}
                 >
                   {/* Card Header Content */}
                   <div className="pricing-card__header">
@@ -78,9 +85,8 @@ export default function PricingSection() {
                     {/* Price Block */}
                     <div className="pricing-card__price-row">
                       <span
-                        className={`pricing-card__price ${
-                          isFeatured ? "pricing-card__price--popular" : ""
-                        }`}
+                        className={`pricing-card__price ${isFeatured ? "pricing-card__price--popular" : ""
+                          }`}
                       >
                         {tier.priceDisplay}
                       </span>
@@ -88,7 +94,6 @@ export default function PricingSection() {
 
                     {/* Best For (Soft & Clean) */}
                     <div className="pricing-card__best-for">
-                      <span className="pricing-card__best-for-label">Best for:</span>
                       <span className="pricing-card__best-for-text">{tier.bestFor}</span>
                     </div>
 
@@ -100,11 +105,10 @@ export default function PricingSection() {
                         return (
                           <li key={idx} className="pricing-card__feature-item">
                             <div
-                              className={`pricing-card__feature-check ${
-                                isHighlighted
-                                  ? "pricing-card__feature-check--highlight"
-                                  : ""
-                              }`}
+                              className={`pricing-card__feature-check ${isHighlighted
+                                ? "pricing-card__feature-check--highlight"
+                                : ""
+                                }`}
                             >
                               <svg
                                 width="11"
@@ -120,11 +124,10 @@ export default function PricingSection() {
                               </svg>
                             </div>
                             <span
-                              className={`pricing-card__feature-text ${
-                                isHighlighted
-                                  ? "pricing-card__feature-text--highlight"
-                                  : ""
-                              }`}
+                              className={`pricing-card__feature-text ${isHighlighted
+                                ? "pricing-card__feature-text--highlight"
+                                : ""
+                                }`}
                             >
                               {feat.text}
                             </span>
@@ -139,9 +142,8 @@ export default function PricingSection() {
                     <button
                       type="button"
                       onClick={() => handleTierClick(tier)}
-                      className={`pricing-card__cta ${
-                        isFeatured ? "pricing-card__cta--popular" : ""
-                      }`}
+                      className={`pricing-card__cta ${isFeatured ? "pricing-card__cta--popular" : ""
+                        }`}
                     >
                       <span>{tier.buttonText}</span>
                       <svg

@@ -10,7 +10,7 @@
  */
 export default function TransformationChamber() {
   return (
-    <div className="transformation-chamber" aria-label="Oshunno Transformation Chamber">
+    <div className="transformation-chamber" aria-label="Pointfex Transformation Chamber">
       {/* Wide Cyan Spotlight Behind Machine */}
       <div className="chamber-cyan-spotlight" aria-hidden="true" />
 

@@ -4,14 +4,14 @@ import "./ParticleTextCanvas.css";
 /**
  * ParticleTextCanvas Component
  * 
- * Interactive rasterized dot/particle matrix banner displaying "OSHUNNO".
+ * Interactive rasterized dot/particle matrix banner displaying "POINTFEX".
  * - Offscreen text rasterization and pixel grid sampling.
  * - Physics-based cursor repulsion with elastic spring return and damping.
- * - Reactive color bloom transitioning from muted editorial slate into luminous Oshunno cyan on disturbance.
+ * - Reactive color bloom transitioning from muted editorial slate into luminous Pointfex cyan on disturbance.
  * - IntersectionObserver lifecycle management for zero idle CPU usage.
  * - High-DPI Retina support and mobile touch responsiveness.
  */
-export default function ParticleTextCanvas({ text = "OSHUNNO" }) {
+export default function ParticleTextCanvas({ text = "POINTFEX" }) {
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
   const particlesRef = useRef([]);
@@ -28,7 +28,7 @@ export default function ParticleTextCanvas({ text = "OSHUNNO" }) {
 
     const rect = container.getBoundingClientRect();
     const width = Math.floor(rect.width);
-    const height = Math.floor(rect.height || 260);
+    const height = Math.floor(rect.height || 380);
 
     if (width === 0 || height === 0) return;
 
@@ -51,13 +51,13 @@ export default function ParticleTextCanvas({ text = "OSHUNNO" }) {
     const offCtx = offCanvas.getContext("2d", { willReadFrequently: true });
     if (!offCtx) return;
 
-    // Responsive font scaling: fit "OSHUNNO" across ~88% of container width
-    const targetWidth = width * 0.88;
+    // Responsive font scaling: fit "POINTFEX" across ~92% of container width (50% larger scale)
+    const targetWidth = width * 0.92;
     offCtx.font = `900 100px "Plus Jakarta Sans", "Inter", -apple-system, sans-serif`;
     const initialMetrics = offCtx.measureText(text);
     const scaleFactor = targetWidth / (initialMetrics.width || 1);
-    const idealFontSize = Math.min(Math.floor(100 * scaleFactor), Math.floor(height * 0.8));
-    const finalFontSize = Math.max(idealFontSize, 24);
+    const idealFontSize = Math.min(Math.floor(100 * scaleFactor), Math.floor(height * 0.88));
+    const finalFontSize = Math.max(idealFontSize, 28);
 
     offCtx.font = `900 ${finalFontSize}px "Plus Jakarta Sans", "Inter", -apple-system, sans-serif`;
     offCtx.textAlign = "center";
@@ -73,10 +73,10 @@ export default function ParticleTextCanvas({ text = "OSHUNNO" }) {
       return;
     }
 
-    // Determine grid step: larger on small screens for solid 60fps performance
+    // Determine grid step & particle radius optimized for larger font scale & 60fps
     const isMobile = width < 768;
-    const step = isMobile ? 6 : width > 1400 ? 5 : 5;
-    const particleRadius = isMobile ? 1.2 : 1.4;
+    const step = isMobile ? 5 : width > 1400 ? 6 : 5;
+    const particleRadius = isMobile ? 1.3 : 1.6;
 
     const newParticles = [];
     for (let y = 0; y < height; y += step) {
@@ -197,10 +197,10 @@ export default function ParticleTextCanvas({ text = "OSHUNNO" }) {
       const mouse = mouseRef.current;
       const reducedMotion = isReducedMotionRef.current;
 
-      // Dynamic interaction radius based on container dimensions
-      const repulseRadius = Math.max(55, Math.min(95, width * 0.1));
+      // Dynamic interaction radius based on container dimensions (scaled for 50% larger name)
+      const repulseRadius = Math.max(70, Math.min(130, width * 0.12));
       const repulseRadiusSq = repulseRadius * repulseRadius;
-      const repulsionPower = 18;
+      const repulsionPower = 20;
       const springEase = 0.08;
       const damping = 0.88;
 
@@ -259,7 +259,7 @@ export default function ParticleTextCanvas({ text = "OSHUNNO" }) {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
 
-        // Smooth color transition from crisp muted white to luminous Oshunno cyan
+        // Smooth color transition from crisp muted white to luminous Pointfex cyan
         if (p.active > 0.04) {
           const r = Math.round(240 - p.active * 184); // 240 -> 56
           const g = Math.round(245 - p.active * 56);  // 245 -> 189
@@ -319,9 +319,9 @@ export default function ParticleTextCanvas({ text = "OSHUNNO" }) {
     <div
       ref={containerRef}
       className="particle-text-banner"
-      aria-label="Interactive particle display of agency name: OSHUNNO"
+      aria-label="Interactive particle display of agency name: POINTFEX"
     >
-      <span className="sr-only">OSHUNNO</span>
+      <span className="sr-only">POINTFEX</span>
       <canvas
         ref={canvasRef}
         className="particle-text-canvas"

@@ -1,13 +1,13 @@
 /* ==========================================================================
    PRICING SECTION STYLES
-   Recreated from armabir-portfolio with Oshunno Cyan Brand System
+   Recreated from armabir-portfolio with Pointfex Cyan Brand System
    ========================================================================== */
 
 .pricing-section {
   position: relative;
   width: 100%;
-  background-color: var(--color-bg);
-  padding: clamp(70px, 10vh, 130px) clamp(20px, 4vw, 60px);
+  background-color: var(--color-bg-alt);
+  padding: clamp(50px, 7vh, 80px) clamp(20px, 4vw, 60px);
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -56,11 +56,12 @@
 
 .pricing-grid__item {
   display: flex;
-  height: 100%;
+  align-self: center;
+  width: 100%;
 }
 
 /* --------------------------------------------------------------------------
-   FOLDER TAB CARD ARCHITECTURE & 3D PARALLAX
+   FOLDER TAB CARD ARCHITECTURE (SMOOTH NON-TILTING HOVER LIFT)
    -------------------------------------------------------------------------- */
 .folder-tab-card {
   position: relative;
@@ -68,17 +69,30 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transform-style: preserve-3d;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
+}
+
+.folder-tab-card:hover {
+  transform: translateY(-6px);
 }
 
 .folder-tab-card--popular {
   z-index: 20;
+  transform: scale(1.035);
+}
+
+.folder-tab-card--popular .folder-tab-card__content {
+  min-height: 520px;
+}
+
+.folder-tab-card--popular:hover {
+  transform: scale(1.035) translateY(-6px);
 }
 
 /* --------------------------------------------------------------------------
    TOP-RIGHT & BOTTOM-LEFT DUAL LUMINOUS GLOW HALOS
+   (Glows ONLY on hover for all cards)
    -------------------------------------------------------------------------- */
 .folder-tab-card__glow-wrap {
   position: absolute;
@@ -86,19 +100,12 @@
   border-radius: 24px;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.45s ease-out;
+  transition: opacity 0.4s ease-out;
   z-index: 0;
 }
 
-.folder-tab-card__glow-wrap--active {
-  opacity: 1;
-}
-
-.folder-tab-card--popular .folder-tab-card__glow-wrap {
-  opacity: 0.85;
-}
-
-.folder-tab-card--popular:hover .folder-tab-card__glow-wrap {
+.folder-tab-card__glow-wrap--active,
+.folder-tab-card:hover .folder-tab-card__glow-wrap {
   opacity: 1;
 }
 
@@ -266,14 +273,16 @@
   display: flex;
   align-items: baseline;
   gap: 8px;
+  flex-wrap: nowrap;
 }
 
 .pricing-card__price {
   font-family: var(--font-headline);
-  font-size: clamp(1.65rem, 2.2vw, 2.1rem);
+  font-size: clamp(1.2rem, 1.55vw, 1.5rem);
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.025em;
   color: #ffffff;
+  white-space: nowrap;
 }
 
 .pricing-card__price--popular {
@@ -285,28 +294,17 @@
 
 .pricing-card__best-for {
   font-family: var(--font-body);
-  font-size: 0.82rem;
+  font-size: 0.84rem;
   line-height: 1.5;
-  color: #94a3b8;
+  color: #cbd5e1;
   margin-bottom: 20px;
   padding-bottom: 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.pricing-card__best-for-label {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #64748b;
-  font-weight: 700;
 }
 
 .pricing-card__best-for-text {
   color: #cbd5e1;
+  display: block;
 }
 
 /* Feature List */
@@ -426,7 +424,7 @@
   border-top: 1px solid rgba(255, 255, 255, 0.07);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .folder-tab-card__led-group {
@@ -434,7 +432,7 @@
   align-items: center;
   gap: 6px;
   background: rgba(0, 0, 0, 0.5);
-  padding: 5px 10px;
+  padding: 5px 12px;
   border-radius: 9999px;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -454,13 +452,66 @@
   box-shadow: 0 0 7px #38bdf8;
 }
 
-.folder-tab-card__tray-label {
-  font-family: var(--font-mono);
-  font-size: 0.64rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: #64748b;
-  text-transform: uppercase;
+/* --------------------------------------------------------------------------
+   COMPACT VARIANT (FIRST CARD - ESSENTIAL REDUCED HEIGHT)
+   -------------------------------------------------------------------------- */
+.pricing-card--compact .folder-tab-card__content {
+  min-height: 440px;
+  padding: 22px 22px 18px;
+}
+
+.pricing-card--compact .pricing-card__title {
+  margin-bottom: 6px;
+}
+
+.pricing-card--compact .pricing-card__price-row {
+  margin-bottom: 8px;
+}
+
+.pricing-card--compact .pricing-card__best-for {
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+}
+
+.pricing-card--compact .pricing-card__features {
+  margin-bottom: 16px;
+  gap: 9px;
+}
+
+.pricing-card--compact .folder-tab-card__tray {
+  margin-top: 12px;
+  padding-top: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   3RD CARD ("SIGNATURE" BALANCED HEIGHT)
+   -------------------------------------------------------------------------- */
+.pricing-card--signature .folder-tab-card__content {
+  min-height: 475px;
+  padding: 24px 22px 18px;
+}
+
+.pricing-card--signature .pricing-card__title {
+  margin-bottom: 8px;
+}
+
+.pricing-card--signature .pricing-card__price-row {
+  margin-bottom: 10px;
+}
+
+.pricing-card--signature .pricing-card__best-for {
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+}
+
+.pricing-card--signature .pricing-card__features {
+  margin-bottom: 18px;
+  gap: 11px;
+}
+
+.pricing-card--signature .folder-tab-card__tray {
+  margin-top: 14px;
+  padding-top: 12px;
 }
 
 /* --------------------------------------------------------------------------
