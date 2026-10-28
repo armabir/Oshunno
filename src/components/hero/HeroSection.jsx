@@ -34,9 +34,9 @@ export default function HeroSection() {
           </h1>
 
           {/* Sub-description */}
-          <p className="hero-editorial__description">
+          {/* <p className="hero-editorial__description">
             Bespoke web architecture, sub-second loading speeds, and unforgettable editorial motion design engineered to establish category leadership.
-          </p>
+          </p> */}
         </div>
       </div>
     </section>

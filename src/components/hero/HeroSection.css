@@ -1,4 +1,4 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    HERO SECTION STYLES
    Conveyor Engine & Editorial Headline (Floating Glass Navbar Mounted Globally)
    ========================================================================== */
@@ -278,6 +278,7 @@
   display: none;
 }
 
+
 /* --------------------------------------------------------------------------
    TIER B: CONVEYOR BELT & TRANSFORMATION ENGINE
    -------------------------------------------------------------------------- */
@@ -334,10 +335,7 @@
   will-change: transform;
   animation: conveyor-flow 38s linear infinite;
 }
-
-.hero-conveyor-wrap:hover .conveyor-track__inner {
-  animation-play-state: paused;
-}
+/* Uninterrupted continuous flow: hover pause removed per requirement */
 
 @keyframes conveyor-flow {
   0% {
@@ -364,387 +362,1131 @@
 
 .conveyor-vignette--left {
   left: 0;
-  background: linear-gradient(90deg, var(--color-bg) 0%, transparent 100%);
+  background: linear-gradient(90deg, var(--color-bg, #0c0c0e) 0%, transparent 100%);
 }
 
 .conveyor-vignette--right {
   right: 0;
-  background: linear-gradient(270deg, var(--color-bg) 0%, transparent 100%);
+  background: linear-gradient(270deg, var(--color-bg, #0c0c0e) 0%, transparent 100%);
 }
 
 /* --------------------------------------------------------------------------
-   OPTICAL VOLUMETRIC LIGHT FLARE (SVG FILTER MESH)
-   Exponential horn/funnel flare terminating into the central Machine card
+   PERFECT PLASMA BAR (FROM TUKI-AI-LANDING - HORIZONTAL ORIENTATION)
+   Continuous Multidirectional Energy Flow System flowing from Left to Right
+   onto the central Transformation Chamber
    -------------------------------------------------------------------------- */
+
 .plasma-beam-track {
   position: absolute;
   left: 0;
   top: 50%;
   transform: translateY(-50%);
   width: calc(50% - (var(--machine-width) / 2) + 2px);
-  height: 320px;
+  height: 380px;
   pointer-events: none;
   z-index: 10;
   display: flex;
   align-items: center;
   overflow: visible;
+
+  /* Flow Controls */
+  --flow-speed-fast: 1.8s;
+  --flow-speed-mid: 2.4s;
+  --flow-speed-slow: 3.2s;
+  --flow-speed-h-fast: 1.8s;
+  --flow-speed-h-slow: 2.5s;
+
+  --flow-intensity-fast: 1.0;
+  --flow-intensity-mid: 1.0;
+  --flow-intensity-slow: 0.65;
+  --flow-h-intensity: 0.90;
+
+  --glow-ambient-opacity: 0.88;
+  --glow-deep-opacity: 0.90;
+  --glow-mid-opacity: 0.95;
+  --glow-halo-opacity: 1.0;
+  --glow-core-opacity: 1.0;
+
+  --blur-ambient: 45px;
+  --blur-deep-bloom: 30px;
+  --blur-mid-bloom: 9px;
+  --blur-halo: 3px;
 }
 
-.plasma-optical-svg {
+/* 1. Deep atmospheric background ambient bloom (+25% width: 300px) */
+.plasma-ambient-bg {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
   width: 100%;
-  height: 100%;
-  overflow: visible;
+  height: 300px;
+  background: radial-gradient(
+    ellipse 65% 55% at 50% 50%,
+    rgba(77, 53, 255, 0.28) 0%,
+    rgba(53, 30, 255, 0.1) 55%,
+    transparent 75%
+  );
+  filter: blur(var(--blur-ambient, 45px));
+  opacity: var(--glow-ambient-opacity, 0.88);
+}
+
+/* 2. Horizontal Light Beam Group (starts at left edge, flows to machine border) */
+.plasma-beam-group {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 0;
   pointer-events: none;
 }
 
-/* Subtle high-frequency breathing loop fluctuating between 0.85 and 1.0 */
-.plasma-optical-mesh {
-  animation: plasma-raw-hum 0.72s ease-in-out infinite alternate;
-  transform-origin: center left;
-  will-change: opacity, transform;
+.p-layer {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 100%;
+  pointer-events: none;
 }
 
-@keyframes plasma-raw-hum {
+/* Deep violet atmospheric wash (+25% beam width: 138px) */
+.p-layer-deep-bloom {
+  height: 138px;
+  background: linear-gradient(
+    90deg,
+    rgba(77, 53, 255, 0.35) 0%,
+    rgba(80, 55, 255, 0.45) 40%,
+    rgba(95, 75, 255, 0.72) 80%,
+    rgba(120, 100, 255, 0.95) 100%
+  );
+  filter: blur(var(--blur-deep-bloom, 30px));
+  opacity: var(--glow-deep-opacity, 0.90);
+}
+
+/* Mid-range electric blue glowing beam (+25% beam width: 40px) */
+.p-layer-mid-bloom {
+  height: 40px;
+  background: linear-gradient(
+    90deg,
+    rgba(95, 85, 255, 0.8) 0%,
+    rgba(105, 95, 255, 0.85) 40%,
+    rgba(125, 120, 255, 0.98) 80%,
+    rgba(155, 150, 255, 1) 100%
+  );
+  filter: blur(var(--blur-mid-bloom, 9px));
+  opacity: var(--glow-mid-opacity, 0.95);
+}
+
+/* Saturated electric-blue / icy-blue halo (+25% beam width: 13px) */
+.p-layer-halo {
+  height: 13px;
+  background: linear-gradient(
+    90deg,
+    rgba(145, 160, 255, 0.95) 0%,
+    rgba(165, 180, 255, 0.98) 50%,
+    rgba(205, 220, 255, 1) 100%
+  );
+  filter: blur(var(--blur-halo, 3px));
+  opacity: var(--glow-halo-opacity, 1.0);
+}
+
+/* Permanent luminous razor-sharp white-blue central core */
+.p-layer-core {
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    rgba(215, 230, 255, 0.6) 0%,
+    rgba(235, 245, 255, 0.75) 50%,
+    rgba(215, 230, 255, 0.6) 100%
+  );
+  box-shadow:
+    0 0 4px rgba(200, 225, 255, 0.55),
+    0 0 10px rgba(101, 85, 255, 0.85),
+    0 0 22px rgba(77, 53, 255, 0.5);
+  filter: blur(0.3px);
+  opacity: var(--glow-core-opacity, 1.0);
+}
+
+/* ==========================================================================
+   Continuous Rightward-Flowing Energy Stream System (LINEAR TIMING, NO GAPS)
+   ========================================================================== */
+
+.p-flow-container {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 45px;
+  overflow: hidden;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.p-stream-track {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 200%;
+  pointer-events: none;
+}
+
+/* Fast sharp stream */
+.p-stream-fast {
+  transform: translateY(-50%);
+  height: 3.5px;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 4%,
+    rgba(101, 85, 255, 0.25) 8%,
+    rgba(110, 95, 255, 0.85) 13%,
+    rgba(200, 230, 255, 0.95) 17%,
+    #ffffff 20%,
+    transparent 21%,
+    transparent 29%,
+    rgba(101, 85, 255, 0.25) 33%,
+    rgba(120, 110, 255, 0.85) 38%,
+    rgba(220, 240, 255, 0.95) 43%,
+    #ffffff 47%,
+    transparent 48%,
+    transparent 50%
+  );
+  box-shadow: 0 0 6px #ffffff, 0 0 12px #6555ff, 0 0 20px rgba(101, 85, 255, 0.9);
+  filter: blur(0.2px);
+  opacity: var(--flow-intensity-fast, 1.0);
+  animation: pStreamRightward var(--flow-speed-fast, 1.8s) linear infinite;
+}
+
+/* Mid-range plasma stream */
+.p-stream-mid {
+  transform: translateY(-50%);
+  height: 7.5px;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 8%,
+    rgba(77, 53, 255, 0.3) 14%,
+    rgba(101, 85, 255, 0.8) 22%,
+    rgba(180, 215, 255, 0.9) 28%,
+    #ffffff 32%,
+    transparent 33%,
+    transparent 50%
+  );
+  box-shadow: 0 0 12px rgba(101, 85, 255, 0.85);
+  filter: blur(1.2px);
+  opacity: var(--flow-intensity-mid, 1.0);
+  animation: pStreamRightward var(--flow-speed-mid, 2.4s) linear infinite;
+  animation-delay: -0.8s;
+}
+
+/* Slow ambient envelope stream */
+.p-stream-slow {
+  transform: translateY(-50%);
+  height: 22.5px;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 8%,
+    rgba(101, 85, 255, 0.4) 18%,
+    rgba(140, 175, 255, 0.75) 25%,
+    rgba(101, 85, 255, 0.35) 32%,
+    transparent 50%
+  );
+  filter: blur(4px);
+  opacity: var(--flow-intensity-slow, 0.65);
+  animation: pStreamRightward var(--flow-speed-slow, 3.2s) linear infinite;
+  animation-delay: -1.6s;
+}
+
+@keyframes pStreamRightward {
   0% {
-    opacity: 0.85;
-    transform: scaleY(0.985);
-  }
-  30% {
-    opacity: 0.97;
-    transform: scaleY(1.01);
-  }
-  65% {
-    opacity: 0.89;
-    transform: scaleY(0.99);
+    transform: translateY(-50%) translateX(-50%);
   }
   100% {
-    opacity: 1.0;
-    transform: scaleY(1.015);
+    transform: translateY(-50%) translateX(0%);
   }
 }
 
-/* High-speed streaming energy pulses surging into the engine */
-.plasma-stream-surge {
-  stroke-dasharray: 90 200;
-  animation: plasma-surge-flow 1.25s linear infinite;
-  filter: drop-shadow(0 0 6px #38bdf8);
-  opacity: 0.9;
+/* Atmospheric backing bloom for the flare before meeting the machine (High-impact presence) */
+.plasma-flare-aura {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 220px;
+  height: 290px;
+  background: radial-gradient(
+    ellipse 75% 90% at 100% 50%,
+    rgba(150, 135, 255, 0.75) 0%,
+    rgba(110, 90, 255, 0.5) 35%,
+    rgba(77, 53, 255, 0.22) 65%,
+    transparent 100%
+  );
+  filter: blur(20px);
+  opacity: 1.0;
+  pointer-events: none;
 }
 
-@keyframes plasma-surge-flow {
-  0% { stroke-dashoffset: 290; }
-  100% { stroke-dashoffset: 0; }
+/* Flared curved pedestal where horizontal beam meets vertical frame (Impact size: 88px Ã— 215px) */
+.plasma-curved-pedestal {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 88px;
+  height: 215px;
+  pointer-events: none;
 }
 
-/* Impact Point Radiant Flare Breathing */
-.plasma-impact-flare {
-  animation: flare-flicker 0.65s ease-in-out infinite alternate;
-  transform-origin: center;
+.plasma-curved-pedestal .pedestal-flare-outer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(6px);
+  opacity: 0.94;
 }
 
-@keyframes flare-flicker {
+.plasma-curved-pedestal .pedestal-flare-inner {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(2.5px);
+  opacity: 0.98;
+}
+
+.plasma-curved-pedestal .pedestal-flare-core {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(0.6px) drop-shadow(0 0 5px #ffffff) drop-shadow(0 0 12px rgba(145, 165, 255, 0.9));
+  opacity: 1.0;
+}
+
+/* ==========================================================================
+   Smooth, High-Impact Intersection Transition at the Machine Left Edge
+   ========================================================================== */
+
+.plasma-rim-junction {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 0;
+  height: 100%;
+  pointer-events: none;
+  z-index: 15;
+}
+
+/* Concentrated High-Impact Point Flash */
+.plasma-rim-impact-core {
+  position: absolute;
+  top: 50%;
+  right: -6px;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 64px;
+  background: radial-gradient(
+    ellipse 14px 32px at 50% 50%,
+    #ffffff 0%,
+    rgba(220, 240, 255, 0.95) 25%,
+    rgba(145, 160, 255, 0.75) 55%,
+    rgba(101, 85, 255, 0) 100%
+  );
+  filter: blur(2.5px);
+  box-shadow:
+    0 0 16px #ffffff,
+    0 0 32px rgba(145, 160, 255, 0.95),
+    0 0 52px rgba(101, 85, 255, 0.7);
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* Seamless vertical border luminous highlight (High impact: 160px height, 3.5px width) */
+.plasma-rim-border-blend {
+  position: absolute;
+  top: 50%;
+  right: -1px;
+  transform: translateY(-50%);
+  width: 3.5px;
+  height: 160px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(140, 175, 255, 0.35) 15%,
+    rgba(220, 240, 255, 0.95) 35%,
+    #FFFFFF 50%,
+    rgba(220, 240, 255, 0.95) 65%,
+    rgba(140, 175, 255, 0.35) 85%,
+    transparent 100%
+  );
+  filter: blur(0.2px);
+  box-shadow:
+    0 0 14px #FFFFFF,
+    0 0 28px rgba(145, 160, 255, 1),
+    0 0 45px rgba(101, 85, 255, 0.95);
+  pointer-events: none;
+}
+
+/* Subtle diffuse optical scattering at the junction point (55px Ã— 150px) */
+.plasma-rim-diffuse-glow {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(35%, -50%);
+  width: 55px;
+  height: 150px;
+  background: radial-gradient(
+    ellipse 28px 75px at 50% 50%,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(180, 210, 255, 0.6) 35%,
+    rgba(101, 85, 255, 0.3) 70%,
+    transparent 100%
+  );
+  filter: blur(7px);
+  pointer-events: none;
+}
+
+/* Continuous Up-and-Down Energy Dispersion (Impact height: 350px) */
+.plasma-rim-dispersion {
+  position: absolute;
+  top: 50%;
+  right: -1px;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 350px;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.p-channel-up {
+  position: absolute;
+  bottom: 50%;
+  right: 0;
+  width: 8px;
+  height: 175px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(0deg, #000 0%, #000 45%, rgba(0, 0, 0, 0.4) 75%, transparent 100%);
+  mask-image: linear-gradient(0deg, #000 0%, #000 45%, rgba(0, 0, 0, 0.4) 75%, transparent 100%);
+}
+
+.p-channel-down {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 8px;
+  height: 175px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 45%, rgba(0, 0, 0, 0.4) 75%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 45%, rgba(0, 0, 0, 0.4) 75%, transparent 100%);
+}
+
+
+.p-dispersion-track {
+  position: absolute;
+  right: 2px;
+  pointer-events: none;
+}
+
+/* Upward primary streak: white leading edge, electric-blue trailing tail */
+.p-track-up-1 {
+  bottom: 0;
+  width: 2px;
+  height: 200%;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 12%,
+    #FFFFFF 18%,
+    rgba(180, 215, 255, 0.85) 22%,
+    rgba(101, 85, 255, 0.6) 28%,
+    rgba(101, 85, 255, 0.15) 35%,
+    transparent 36%,
+    transparent 50%
+  );
+  filter: blur(0.25px);
+  box-shadow: 0 0 6px #FFFFFF, 0 0 12px #6555FF;
+  opacity: var(--flow-h-intensity, 0.90);
+  animation: pDisperseUp var(--flow-speed-h-fast, 1.8s) linear infinite;
+}
+
+/* Upward secondary softer glow streak */
+.p-track-up-2 {
+  bottom: 0;
+  right: 0.5px;
+  width: 5px;
+  height: 200%;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 10%,
+    rgba(101, 85, 255, 0.5) 22%,
+    rgba(180, 215, 255, 0.8) 28%,
+    rgba(101, 85, 255, 0.3) 36%,
+    transparent 50%
+  );
+  filter: blur(2px);
+  opacity: var(--flow-h-intensity, 0.90);
+  animation: pDisperseUp var(--flow-speed-h-slow, 2.5s) linear infinite;
+  animation-delay: -0.9s;
+}
+
+/* Downward primary streak: white leading edge, electric-blue trailing tail */
+.p-track-down-1 {
+  top: 0;
+  width: 2px;
+  height: 200%;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 12%,
+    rgba(101, 85, 255, 0.15) 15%,
+    rgba(101, 85, 255, 0.6) 22%,
+    rgba(180, 215, 255, 0.85) 28%,
+    #FFFFFF 32%,
+    transparent 33%,
+    transparent 50%
+  );
+  filter: blur(0.25px);
+  box-shadow: 0 0 6px #FFFFFF, 0 0 12px #6555FF;
+  opacity: var(--flow-h-intensity, 0.90);
+  animation: pDisperseDown var(--flow-speed-h-fast, 1.8s) linear infinite;
+}
+
+/* Downward secondary softer glow streak */
+.p-track-down-2 {
+  top: 0;
+  right: 0.5px;
+  width: 5px;
+  height: 200%;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 10%,
+    rgba(101, 85, 255, 0.3) 22%,
+    rgba(180, 215, 255, 0.8) 28%,
+    rgba(101, 85, 255, 0.5) 36%,
+    transparent 50%
+  );
+  filter: blur(2px);
+  opacity: var(--flow-h-intensity, 0.90);
+  animation: pDisperseDown var(--flow-speed-h-slow, 2.5s) linear infinite;
+  animation-delay: -0.9s;
+}
+
+@keyframes pDisperseUp {
   0% {
-    opacity: 0.85;
-    transform: scale(0.94);
+    transform: translateY(0%);
   }
   100% {
-    opacity: 1.0;
-    transform: scale(1.06);
+    transform: translateY(-50%);
   }
 }
 
-/* Anamorphic vertical impact flare streak */
-.plasma-impact-vertical {
-  animation: vertical-flare-pulse 1.35s ease-in-out infinite alternate;
-  transform-origin: center;
-}
-
-@keyframes vertical-flare-pulse {
+@keyframes pDisperseDown {
   0% {
-    opacity: 0.75;
-    transform: scaleY(0.92);
+    transform: translateY(-50%);
   }
   100% {
-    opacity: 1.0;
-    transform: scaleY(1.08);
+    transform: translateY(0%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p-stream-fast,
+  .p-stream-mid,
+  .p-stream-slow,
+  .p-track-up-1,
+  .p-track-up-2,
+  .p-track-down-1,
+  .p-track-down-2 {
+    animation: none !important;
+  }
+  .p-flow-container,
+  .plasma-rim-dispersion {
+    display: none !important;
   }
 }
 
 /* --------------------------------------------------------------------------
-   CARD ARCHITECTURE (BROKEN VS. POLISHED)
+   FLOATING IDEA & INSPIRATION CARDS (RAW INPUTS FEEDING THE TRANSFORMATION ENGINE)
+   - Staggered above & below the plasma stream
+   - Aerodynamic glassmorphism pills with glowing sparks & directional arrows
+   - Organic floating drift towards the machine
+   -------------------------------------------------------------------------- */
+.plasma-idea-cards {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 25;
+}
+
+.plasma-idea-card {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  background: rgba(12, 16, 32, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(145, 160, 255, 0.32);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.6),
+    0 0 12px rgba(101, 85, 255, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  font-family: var(--font-headline);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  letter-spacing: 0.02em;
+  pointer-events: auto;
+  cursor: default;
+  user-select: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.plasma-idea-card:hover {
+  transform: translateY(-2px) scale(1.05);
+  border-color: rgba(190, 205, 255, 0.8);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.7),
+    0 0 20px rgba(126, 114, 255, 0.5),
+    inset 0 1px 1px #ffffff;
+  color: #ffffff;
+}
+
+.plasma-idea-card__spark {
+  color: #91a0ff;
+  font-size: 0.64rem;
+  line-height: 1;
+}
+
+.plasma-idea-card__text {
+  line-height: 1;
+}
+
+.plasma-idea-card__arrow {
+  color: rgba(145, 160, 255, 0.7);
+  font-size: 0.72rem;
+  line-height: 1;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.plasma-idea-card:hover .plasma-idea-card__arrow {
+  transform: translateX(2px);
+  color: #ffffff;
+}
+
+/* Connective Energy Filament extending towards the Plasma Beam */
+.plasma-idea-card::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 10px;
+  pointer-events: none;
+  opacity: 0.4;
+  transition: opacity 0.25s ease;
+}
+
+/* Positions & Orientations */
+.plasma-idea-card--idea {
+  left: 10%;
+  top: 18%;
+  animation: idea-float-1 4.4s ease-in-out infinite alternate;
+}
+.plasma-idea-card--idea::after {
+  bottom: -10px;
+  background: linear-gradient(180deg, rgba(145, 160, 255, 0.7) 0%, transparent 100%);
+}
+
+.plasma-idea-card--vision {
+  left: 42%;
+  top: 24%;
+  animation: idea-float-2 4.9s ease-in-out infinite alternate 0.5s;
+}
+.plasma-idea-card--vision::after {
+  bottom: -10px;
+  background: linear-gradient(180deg, rgba(145, 160, 255, 0.7) 0%, transparent 100%);
+}
+
+.plasma-idea-card--concept {
+  left: 74%;
+  top: 19%;
+  animation: idea-float-3 3.8s ease-in-out infinite alternate 1s;
+}
+.plasma-idea-card--concept::after {
+  bottom: -10px;
+  background: linear-gradient(180deg, rgba(145, 160, 255, 0.7) 0%, transparent 100%);
+}
+
+.plasma-idea-card--inspiration {
+  left: 20%;
+  top: 75%;
+  animation: idea-float-4 4.6s ease-in-out infinite alternate 0.2s;
+}
+.plasma-idea-card--inspiration::after {
+  top: -10px;
+  background: linear-gradient(0deg, rgba(145, 160, 255, 0.7) 0%, transparent 100%);
+}
+
+.plasma-idea-card--strategy {
+  left: 56%;
+  top: 72%;
+  animation: idea-float-5 5.2s ease-in-out infinite alternate 0.8s;
+}
+.plasma-idea-card--strategy::after {
+  top: -10px;
+  background: linear-gradient(0deg, rgba(145, 160, 255, 0.7) 0%, transparent 100%);
+}
+
+.plasma-idea-card:hover::after {
+  opacity: 0.9;
+}
+
+@keyframes idea-float-1 {
+  0% { transform: translateY(0) rotate(-1deg); }
+  100% { transform: translateY(-7px) rotate(1.2deg); }
+}
+
+@keyframes idea-float-2 {
+  0% { transform: translateY(0) rotate(1deg); }
+  100% { transform: translateY(-8px) rotate(-1deg); }
+}
+
+@keyframes idea-float-3 {
+  0% { transform: translateY(0) rotate(-0.5deg); }
+  100% { transform: translateY(-6px) rotate(1deg); }
+}
+
+@keyframes idea-float-4 {
+  0% { transform: translateY(0) rotate(1.2deg); }
+  100% { transform: translateY(7px) rotate(-0.8deg); }
+}
+
+@keyframes idea-float-5 {
+  0% { transform: translateY(0) rotate(-1deg); }
+  100% { transform: translateY(8px) rotate(1deg); }
+}
+
+/* --------------------------------------------------------------------------
+   CONVEYOR CARD ARCHITECTURE: SIMPLE WEBSITE WIREFRAME
+
+   - More width than height (landscape desktop browser ratio: 290px Ã— 185px)
+   - Pure geometric wireframe with NO extra text, titles, or badges
+   - Window control dots, search pill, nav skeleton, headline shimmer, button pills
+   - Glowing plasma-violet / periwinkle ambient shadow
    -------------------------------------------------------------------------- */
 .conveyor-card {
-  width: 230px;
-  height: 300px;
-  border-radius: 18px;
-  padding: 18px;
+  width: 290px;
+  height: 185px;
+  border-radius: 12px;
+  padding: 0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   position: relative;
   overflow: hidden;
   transition: transform 0.3s ease;
 }
 
-/* --- Left Side: Broken / Outdated Card --- */
-.conveyor-card--broken {
-  background: #10131b;
-  border: 1px dashed rgba(239, 68, 68, 0.3);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-  opacity: 0.9;
+.conveyor-card--wireframe {
+  background: rgba(9, 14, 28, 0.88);
+  border: 1px solid rgba(145, 160, 255, 0.22);
+  border-top-color: rgba(145, 160, 255, 0.12);
+  border-bottom-color: rgba(145, 160, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  /* Soft glowing shadow in the matching plasma electric-violet / periwinkle color */
+  box-shadow:
+    0 12px 34px rgba(0, 0, 0, 0.65),
+    0 0 24px rgba(126, 114, 255, 0.32),
+    0 0 46px rgba(101, 85, 255, 0.18),
+    inset 0 1px 1px rgba(255, 255, 255, 0.14);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-.conveyor-card--broken.tilt-left {
-  transform: rotate(-1.5deg);
+.conveyor-card--wireframe:hover {
+  transform: translateY(-3px);
+  border-color: rgba(180, 195, 255, 0.6);
+  box-shadow:
+    0 16px 44px rgba(0, 0, 0, 0.72),
+    0 0 32px rgba(145, 160, 255, 0.48),
+    0 0 58px rgba(101, 85, 255, 0.28),
+    inset 0 1px 2px rgba(255, 255, 255, 0.35);
 }
 
-.conveyor-card--broken.tilt-right {
-  transform: rotate(1.5deg);
+/* Ambient Corner Blueprint Crosshairs */
+.card-wireframe-cross {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: rgba(145, 160, 255, 0.4);
+  pointer-events: none;
+  z-index: 4;
 }
 
-.conveyor-card__title--broken {
-  font-family: 'Times New Roman', Georgia, serif;
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #cbd5e1;
-  margin: 0 0 4px;
-  letter-spacing: -0.01em;
+.card-wireframe-cross--tl {
+  top: 4px;
+  left: 6px;
 }
 
-.broken-wireframe {
-  margin-top: 14px;
+.card-wireframe-cross--tr {
+  top: 4px;
+  right: 6px;
+}
+
+/* Window Control Header Bar */
+.card-wireframe-header {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.broken-wireframe__bar {
-  height: 8px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.broken-wireframe__bar--1 { width: 75%; }
-.broken-wireframe__bar--2 { width: 50%; }
-
-.broken-wireframe__box {
-  margin-top: 4px;
-  height: 70px;
-  border-radius: 8px;
-  border: 1px dashed rgba(239, 68, 68, 0.35);
-  background: rgba(239, 68, 68, 0.04);
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: rgba(13, 18, 36, 0.95);
+  border-bottom: 1px solid rgba(145, 160, 255, 0.18);
+  flex-shrink: 0;
+}
+
+.card-wireframe-dots {
+  display: flex;
   gap: 4px;
 }
 
-.broken-wireframe__cross {
-  font-size: 1.1rem;
-  color: #f87171;
-}
-
-.broken-wireframe__label {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  color: #f87171;
-}
-
-.conveyor-card__warning-icon {
-  font-size: 0.85rem;
-  color: #f87171;
-}
-
-.conveyor-card__footer--broken {
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-.conveyor-card__metric-val--error {
-  color: #f87171;
-}
-
-/* --- Right Side: Polished / Modern Card --- */
-.conveyor-card--polished {
-  background: #080c14;
-  border: 1.5px solid rgba(56, 189, 248, 0.38);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(56, 189, 248, 0.08);
-}
-
-.conveyor-card__title--polished {
-  font-family: var(--font-headline);
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0 0 4px;
-  letter-spacing: -0.02em;
-}
-
-.conveyor-card__subtitle--polished {
-  color: #38bdf8 !important;
-}
-
-.conveyor-card__sparkle {
-  color: #38bdf8;
-  font-size: 0.85rem;
-  animation: sparkle-pulse 2s infinite ease-in-out;
-}
-
-@keyframes sparkle-pulse {
-  0%, 100% { opacity: 0.5; transform: scale(0.9); }
-  50% { opacity: 1; transform: scale(1.2); }
-}
-
-.polished-interface {
-  margin-top: 14px;
-  height: 86px;
-  border-radius: 10px;
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(56, 189, 248, 0.2);
-  padding: 10px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.polished-interface__preview {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 10px;
-  height: 100%;
-}
-
-.polished-interface__chart {
-  flex: 1;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.polished-interface__chart-svg {
-  width: 100%;
-  height: 30px;
-  overflow: visible;
-  filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.8));
-}
-
-.polished-interface__bars {
-  display: flex;
-  align-items: flex-end;
-  gap: 3px;
-  height: 40px;
-  width: 32px;
-}
-
-.polished-interface__bar {
-  flex: 1;
-  background: linear-gradient(180deg, #38bdf8 0%, #1e3a8a 100%);
-  border-radius: 2px;
-}
-
-.conveyor-card__footer--polished {
-  border-top: 1px solid rgba(56, 189, 248, 0.15);
-}
-
-.conveyor-card__metric-val--cyan {
-  color: #38bdf8;
-  text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
-}
-
-/* Shared Card Elements */
-.conveyor-card__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.conveyor-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 8px;
-  border-radius: 9999px;
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.conveyor-tag--error {
-  background: rgba(239, 68, 68, 0.12);
-  color: #f87171;
-  border: 1px solid rgba(239, 68, 68, 0.28);
-}
-
-.conveyor-tag--warning {
-  background: rgba(245, 158, 11, 0.12);
-  color: #fbbf24;
-  border: 1px solid rgba(245, 158, 11, 0.28);
-}
-
-.conveyor-tag--success {
-  background: rgba(56, 189, 248, 0.14);
-  color: #38bdf8;
-  border: 1px solid rgba(56, 189, 248, 0.35);
-}
-
-.conveyor-tag__dot {
+.card-wireframe-dot {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background-color: currentColor;
 }
 
-.conveyor-tag__dot--pulse {
-  box-shadow: 0 0 6px #38bdf8;
-  animation: tag-pulse 2s infinite ease-in-out;
+.card-wireframe-dot--red { background: #ef4444; }
+.card-wireframe-dot--amber { background: #f59e0b; }
+.card-wireframe-dot--green { background: #10b981; }
+
+.card-wireframe-search-pill {
+  height: 8px;
+  flex: 1;
+  max-width: 120px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(145, 160, 255, 0.2);
 }
 
-@keyframes tag-pulse {
-  0%, 100% { transform: scale(0.9); opacity: 0.7; }
-  50% { transform: scale(1.3); opacity: 1; }
+/* Wireframe Canvas Body (Pure geometry, no text) */
+.card-wireframe-body {
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  flex: 1;
+  justify-content: space-between;
 }
 
-.conveyor-card__subtitle {
-  font-family: var(--font-mono);
-  font-size: 0.64rem;
-  color: #64748b;
-  margin: 0;
+/* Nav Skeleton */
+.card-wireframe-nav-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 3px;
+  border-bottom: 1px dashed rgba(145, 160, 255, 0.16);
 }
 
-.conveyor-card__footer {
-  padding-top: 10px;
+.card-wireframe-logo-skeleton {
+  width: 20px;
+  height: 5px;
+  border-radius: 2.5px;
+  background: #7e72ff;
+  box-shadow: 0 0 6px rgba(126, 114, 255, 0.6);
+}
+
+.card-wireframe-nav-links {
+  display: flex;
+  gap: 4px;
+}
+
+.card-wireframe-nav-item {
+  width: 12px;
+  height: 3px;
+  border-radius: 1.5px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Hero Skeleton with Shimmer */
+.card-wireframe-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card-wireframe-headline-bar {
+  height: 7px;
+  width: 76%;
+  border-radius: 3px;
+  background: linear-gradient(
+    90deg,
+    rgba(126, 114, 255, 0.35) 0%,
+    rgba(255, 255, 255, 0.9) 50%,
+    rgba(126, 114, 255, 0.35) 100%
+  );
+  background-size: 200% 100%;
+  animation: wireframe-shimmer 2.5s infinite linear;
+}
+
+@keyframes wireframe-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.card-wireframe-sub-bar {
+  height: 3.5px;
+  width: 50%;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.card-wireframe-btn-row {
+  display: flex;
+  gap: 4px;
+  margin-top: 1px;
+}
+
+.card-wireframe-btn-pill {
+  border-radius: 3px;
+}
+
+.card-wireframe-btn-pill--primary {
+  width: 26px;
+  height: 6px;
+  background: #6555ff;
+  box-shadow: 0 0 6px rgba(101, 85, 255, 0.6);
+}
+
+.card-wireframe-btn-pill--ghost {
+  width: 18px;
+  height: 6px;
+  border: 1px solid rgba(145, 160, 255, 0.35);
+}
+
+/* Modular UI Grid (Pure geometry, no text) */
+.card-wireframe-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 6px;
+}
+
+.card-wireframe-grid--showcase,
+.card-wireframe-grid--products,
+.card-wireframe-grid--dashboard {
+  grid-template-columns: 1fr 1fr;
+}
+
+.card-wireframe-module {
+  background: rgba(16, 22, 44, 0.65);
+  border: 1px solid rgba(145, 160, 255, 0.2);
+  border-radius: 5px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Dynamic Trendline Chart Module */
+.card-wireframe-module__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-wireframe-mini-title {
+  width: 18px;
+  height: 3px;
+  border-radius: 1.5px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.card-wireframe-mini-badge {
+  width: 8px;
+  height: 3px;
+  border-radius: 1.5px;
+  background: #7e72ff;
+}
+
+.card-wireframe-chart-svg-wrap {
+  width: 100%;
+  height: 24px;
+}
+
+.card-wireframe-chart-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.card-wireframe-chart-path {
+  stroke-dasharray: 120;
+  stroke-dashoffset: 0;
+  animation: wireframe-chart-draw 3s ease-in-out infinite alternate;
+}
+
+@keyframes wireframe-chart-draw {
+  0% { stroke-dashoffset: 35; }
+  100% { stroke-dashoffset: 0; }
+}
+
+/* Metrics & Progress Module */
+.card-wireframe-metric-val {
+  width: 20px;
+  height: 4px;
+  border-radius: 2px;
+  background: #7e72ff;
+}
+
+.card-wireframe-progress-track {
+  width: 100%;
+  height: 3.5px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.card-wireframe-progress-bar {
+  height: 100%;
+  width: 72%;
+  background: linear-gradient(90deg, #6555ff, #91a0ff);
+  border-radius: 2px;
+  animation: progress-pulse 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes progress-pulse {
+  0% { width: 45%; }
+  100% { width: 85%; }
+}
+
+.card-wireframe-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.card-wireframe-bar {
+  width: 100%;
+  height: 2.5px;
+  border-radius: 1.5px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.card-wireframe-bar--short {
+  width: 55%;
+}
+
+.card-wireframe-bar--primary {
+  background: #7e72ff;
+}
+
+/* Media Showcase Module */
+.card-wireframe-media-box {
+  width: 100%;
+  height: 30px;
+  border-radius: 4px;
+  background: rgba(101, 85, 255, 0.08);
+  border: 1px dashed rgba(145, 160, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-wireframe-media-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.card-wireframe-tag-pill {
+  width: 20px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(126, 114, 255, 0.3);
+  margin-top: 2px;
+}
+
+/* Dashboard Module */
+.card-wireframe-kpi-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.conveyor-card__metric-label {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  color: #64748b;
-  text-transform: uppercase;
+.card-wireframe-kpi-pill {
+  width: 22px;
+  height: 4px;
+  border-radius: 2px;
+  background: #7e72ff;
 }
 
-.conveyor-card__metric-val {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 700;
+.card-wireframe-kpi-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #b2c2ff;
+}
+
+.card-wireframe-barchart-wrap {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 30px;
+  padding-top: 4px;
+}
+
+.card-wireframe-bar-col {
+  flex: 1;
+  border-radius: 1.5px 1.5px 0 0;
+  background: linear-gradient(180deg, #7e72ff 0%, #4d35ff 100%);
+}
+
+.card-wireframe-bar-col--1 { height: 40%; }
+.card-wireframe-bar-col--2 { height: 75%; }
+.card-wireframe-bar-col--3 { height: 55%; }
+.card-wireframe-bar-col--4 { height: 95%; }
+.card-wireframe-bar-col--5 { height: 65%; }
+
+/* Products Module */
+.card-wireframe-thumb {
+  width: 100%;
+  height: 16px;
+  border-radius: 2px;
+  background: rgba(101, 85, 255, 0.15);
+  border: 1px dashed rgba(145, 160, 255, 0.35);
+}
+
+.card-wireframe-price-pill {
+  width: 16px;
+  height: 4px;
+  border-radius: 2px;
+  background: #7e72ff;
+  margin-top: 1px;
 }
 
 /* --------------------------------------------------------------------------
-   THE CENTER "TRANSFORMATION CHAMBER" (FIXED AT 50%, z-20)
+   THE CENTER CARD (STYLED EXACTLY LIKE SERVICE SECTION CARDS, PLASMA PALETTE)
+   - Color strictly aligned with the incoming glowing Plasma Stream
+   - Frosted obsidian glass + continuous 2px electric violet/white border highlight
+   - Fully empty inside
    -------------------------------------------------------------------------- */
 .transformation-chamber {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: clamp(270px, 32vw, 310px);
+  width: var(--machine-width, clamp(270px, 32vw, 310px));
   height: clamp(340px, 42vh, 380px);
   z-index: 20;
   pointer-events: none;
@@ -753,292 +1495,166 @@
   justify-content: center;
 }
 
-/* Soft Rhythmic Pulsing Ambient Aura */
-.transformation-chamber__aura {
-  position: absolute;
-  width: 290px;
-  height: 290px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(56, 189, 248, 0.45) 0%,
-    rgba(37, 99, 235, 0.2) 45%,
-    transparent 72%
-  );
-  filter: blur(28px);
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  animation: chamber-pulse 3.8s infinite ease-in-out;
-}
-
-.transformation-chamber__core-glow {
-  position: absolute;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  background: rgba(56, 189, 248, 0.35);
-  filter: blur(16px);
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-
-@keyframes chamber-pulse {
-  0%, 100% {
-    transform: translate(-50%, -50%) scale(0.92);
-    opacity: 0.65;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.14);
-    opacity: 0.95;
-  }
-}
-
-/* Wide cyan spotlight behind the machine (mix-blend-mode: screen, opacity: 0.6) */
-.chamber-cyan-spotlight {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 520px;
-  height: 520px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(56, 189, 248, 0.6) 0%,
-    rgba(37, 99, 235, 0.3) 38%,
-    rgba(99, 102, 241, 0.15) 60%,
-    transparent 80%
-  );
-  filter: blur(48px);
-  mix-blend-mode: screen;
-  opacity: 0.6;
-  pointer-events: none;
-  z-index: -1;
-}
-
-/* Glassmorphic Card Frame with Plasma Receptor Border Glow */
-.transformation-chamber__frame {
+.hero-center-card {
   position: relative;
   width: 100%;
   height: 100%;
-  border-radius: 24px;
-  background: rgba(6, 10, 18, 0.76);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1.5px solid rgba(56, 189, 248, 0.35);
-  box-shadow:
-    -8px 0 32px rgba(255, 255, 255, 0.35),
-    -18px 0 55px rgba(56, 189, 248, 0.45),
-    0 0 50px rgba(99, 102, 241, 0.25),
-    inset 16px 0 30px rgba(56, 189, 248, 0.18),
-    inset 0 0 25px rgba(56, 189, 248, 0.12);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
+  border-radius: 26px;
   box-sizing: border-box;
-}
-
-/* Machine Rim Wrap (Perimeter glow along left, top, and bottom borders) */
-.chamber-perimeter-wrap {
-  position: absolute;
-  inset: 0;
-  border-radius: 24px;
-  pointer-events: none;
-  z-index: 12;
   overflow: hidden;
-}
 
-.chamber-perimeter-wrap__left {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: #ffffff;
-  box-shadow: 0 0 10px #ffffff, 0 0 20px #38bdf8;
-}
+  /* Smooth unnoticeable top and bottom borders:
+     Border gradient is concentrated strictly on the left plasma dock and fades completely
+     to 0% (transparent) at top, bottom, and right, preventing any harsh horizontal line */
+  border: 2px solid transparent;
+  background:
+    radial-gradient(
+      circle 340px at 0% 50%,
+      rgba(145, 160, 255, 0.28) 0%,
+      rgba(101, 85, 255, 0.16) 32%,
+      rgba(77, 53, 255, 0.08) 56%,
+      transparent 80%
+    ) padding-box,
+    linear-gradient(
+      135deg,
+      rgba(20, 15, 52, 0.76) 0%,
+      rgba(12, 10, 36, 0.9) 45%,
+      rgba(6, 5, 20, 0.98) 100%
+    ) padding-box,
+    radial-gradient(
+      ellipse 95px 165px at 0% 50%,
+      #ffffff 0%,
+      #dce5ff 20%,
+      #91a0ff 40%,
+      rgba(101, 85, 255, 0.55) 65%,
+      transparent 96%
+    ) border-box;
 
-.chamber-perimeter-wrap__top {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 45px;
-  height: 2px;
-  background: linear-gradient(90deg, #ffffff 0%, #38bdf8 50%, transparent 100%);
-  box-shadow: 0 0 8px #38bdf8;
-}
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
 
-.chamber-perimeter-wrap__bottom {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 45px;
-  height: 2px;
-  background: linear-gradient(90deg, #ffffff 0%, #38bdf8 50%, transparent 100%);
-  box-shadow: 0 0 8px #38bdf8;
-}
-
-/* Subtle Geometric Concentric Orbital Rings (Low Opacity) */
-.chamber-orbitals {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.14;
-  pointer-events: none;
-}
-
-.chamber-orbitals__svg {
-  width: 190px;
-  height: 190px;
-}
-
-.chamber-orbitals__ring--cw {
-  transform-origin: center;
-  animation: spin-clockwise 28s linear infinite;
-}
-
-.chamber-orbitals__ring--ccw {
-  transform-origin: center;
-  animation: spin-counter 32s linear infinite;
-}
-
-@keyframes spin-clockwise {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes spin-counter {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(-360deg); }
-}
-
-/* Gliding Vertical Laser Scan Line */
-.chamber-laser {
-  position: absolute;
-  top: 10px;
-  bottom: 10px;
-  left: 50%;
-  width: 2px;
-  pointer-events: none;
-  animation: laser-sweep 3.2s ease-in-out infinite alternate;
-}
-
-.chamber-laser__beam {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(56, 189, 248, 0.25) 15%,
-    #38bdf8 45%,
-    #ffffff 50%,
-    #38bdf8 55%,
-    rgba(56, 189, 248, 0.25) 85%,
-    transparent 100%
-  );
+  /* Depth shadow + plasma ambient aura (no harsh top specular line) */
   box-shadow:
-    0 0 14px #38bdf8,
-    0 0 28px rgba(56, 189, 248, 0.45);
+    0 24px 60px rgba(0, 0, 0, 0.8),
+    0 0 45px rgba(101, 85, 255, 0.18);
+
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.chamber-laser__core {
+/* Specular Sheen Catch (faded vertically so top/bottom edges remain soft) */
+.hero-center-card::after {
+  content: "";
   position: absolute;
-  left: -2px;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    ellipse 160px 180px at 0% 50%,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(178, 194, 255, 0.05) 35%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Idle Radiant Glow along the Left Border (scaled +25% to match plasma intersection) */
+.hero-center-card__idle-glow {
+  position: absolute;
+  left: 0;
   top: 50%;
   transform: translateY(-50%);
-  width: 6px;
-  height: 60px;
-  border-radius: 9999px;
-  background: #ffffff;
-  filter: blur(2px);
-  box-shadow: 0 0 10px #ffffff;
+  width: 325px;
+  height: 375px;
+  border-radius: 26px 0 0 26px;
+  background: radial-gradient(
+    circle 360px at 0% 50%,
+    rgba(145, 160, 255, 0.8) 0%,
+    rgba(101, 85, 255, 0.55) 32%,
+    rgba(77, 53, 255, 0.22) 58%,
+    transparent 80%
+  );
+  filter: blur(20px);
+  pointer-events: none;
+  z-index: 1;
 }
 
-@keyframes laser-sweep {
-  0% { transform: translateX(-95px); }
-  100% { transform: translateX(95px); }
-}
-
-/* Chamber Badges & Telemetry */
-.chamber-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 4px 10px;
-  border-radius: 9999px;
-  background: rgba(56, 189, 248, 0.12);
-  border: 1px solid rgba(56, 189, 248, 0.35);
-  font-family: var(--font-mono);
-  font-size: 0.64rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: #38bdf8;
-  width: fit-content;
-  margin: 0 auto;
-}
-
-.chamber-badge__dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background-color: #38bdf8;
-  box-shadow: 0 0 6px #38bdf8;
-}
-
-.chamber-core-emblem {
+/* --------------------------------------------------------------------------
+   CYBERNETIC CIRCUIT MOTHERBOARD (MATCHING HAND-DRAWN SKETCH)
+   - Central rounded square chip featuring Pointfex "P" brand logo
+   - 6 peripheral microchip nodes: top, top-left, left, bottom-left, bottom, right
+   - Orthogonal PCB traces (90Â° angles) linking nodes
+   - Luminous data signal dots traveling continuously through the lines
+   - Synchronized micro-blink when a signal dot enters any box
+   -------------------------------------------------------------------------- */
+.circuit-core-wrap {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  inset: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
+  z-index: 5;
 }
 
-.chamber-core-emblem__ring {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(56, 189, 248, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
+.circuit-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
 
-.chamber-core-emblem__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #ffffff;
-  box-shadow: 0 0 8px #ffffff;
+/* Static Circuit Traces */
+.circuit-trace-line {
+  stroke: rgba(145, 160, 255, 0.24);
+  stroke-width: 1.5px;
+  fill: none;
+  transition: stroke 0.3s ease;
 }
 
-.chamber-telemetry {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 8px;
-  border-top: 1px solid rgba(56, 189, 248, 0.2);
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.08em;
+/* Peripheral Node Chip Boxes (Clean, stable cybernetic aesthetics - no blinking) */
+.circuit-node__box {
+  fill: rgba(12, 16, 38, 0.9);
+  stroke: rgba(145, 160, 255, 0.32);
+  stroke-width: 1.2px;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.chamber-telemetry__label {
-  color: #94a3b8;
+.circuit-node__core {
+  fill: rgba(145, 160, 255, 0.25);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.chamber-telemetry__status {
-  color: #38bdf8;
+/* Central Logo Processor Styling (Steady, luminous cybernetic chip) */
+.circuit-center-processor {
+  filter: drop-shadow(0 0 12px rgba(101, 85, 255, 0.35));
+}
+
+.circuit-processor__halo {
+  fill: none;
+  stroke: rgba(145, 160, 255, 0.22);
+  stroke-width: 1px;
+}
+
+.circuit-processor__body {
+  stroke: rgba(145, 160, 255, 0.5);
+  stroke-width: 1.5px;
+  filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.7));
+}
+
+.circuit-processor__logo-img {
+  pointer-events: none;
+  filter: drop-shadow(0 0 10px rgba(145, 160, 255, 0.6));
+}
+
+.circuit-processor__logo-fallback {
+  font-family: var(--font-headline);
+  font-size: 26px;
   font-weight: 700;
+  fill: #ffffff;
+  pointer-events: none;
+  display: none;
 }
 
 /* --------------------------------------------------------------------------
@@ -1155,6 +1771,7 @@
   font-size: 0.8rem;
 }
 
+
 /* --------------------------------------------------------------------------
    RESPONSIVE DESIGN (TABLET & MOBILE)
    -------------------------------------------------------------------------- */
@@ -1234,9 +1851,9 @@
   }
 
   .conveyor-card {
-    width: 200px;
-    height: 275px;
-    padding: 14px;
+    width: 230px;
+    height: 150px;
+    padding: 0;
   }
 
   .hero-editorial__headline {
